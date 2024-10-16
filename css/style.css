@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,500;1,400&display=swap');
 
+/* GENERAL */
+
 * {
     margin: 0;
     padding: 0;
@@ -7,9 +9,11 @@
 }
 
 html {
-    font-size: 62.5%;
+    font-size: 70%;
     font-family: 'Roboto', sans-serif;
 }
+
+/* HEADER */
 
 li {
     list-style: none;
@@ -27,7 +31,7 @@ a {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem 1.5rem;
+    padding: 2rem 3rem;
 }
 
 .hamburger {
@@ -50,7 +54,7 @@ a {
 }
 
 .nav-item {
-    margin-left: 5rem;
+    margin-left: 2rem;
 }
 
 .nav-link {
@@ -68,6 +72,37 @@ a {
     font-weight: 500;
     color: #482ff7;
 }
+
+/* SEARCHBAR */
+
+.searchbar {
+    display: flex;
+    align-items: center;
+    margin-left: 7rem;
+}
+
+.searchbar-input {
+    font-size: 1.6rem;
+    padding: 0.5rem 13rem;
+    border: 1px solid #E2E8F0;
+    border-radius: 5px;
+    outline: none;
+    text-align: left;
+}
+
+.searchbar-button {
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    border: 0px;
+    background-color: white;
+}
+
+.searchbar-button img {
+    width: 21px;
+    height: 21px;
+}
+
+/* RESPONSIVE MOBILE */
 
 @media only screen and (max-width: 768px) {
     .nav-menu {
@@ -106,5 +141,9 @@ a {
 
     .hamburger.active .bar:nth-child(3) {
         transform: translateY(-8px) rotate(-45deg);
+    }
+
+    .searchbar {
+        display: none;
     }
 }
