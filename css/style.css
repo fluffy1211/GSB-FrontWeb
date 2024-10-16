@@ -2,6 +2,12 @@
 
 /* GENERAL */
 
+:root {
+    --primary-color: #5182bd;
+    --secondary-color: #8cabd3;
+    --tertiary-color: #1c9a39;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -35,7 +41,7 @@ a {
 }
 
 .hamburger {
-    display: none;
+    display: none; /* Hide by default */
 }
 
 .bar {
@@ -60,17 +66,15 @@ a {
 .nav-link {
     font-size: 1.6rem;
     font-weight: 400;
-    color: #475569;
+    color: var(--primary-color);
 }
 
 .nav-link:hover {
-    color: #482ff7;
+    color: var(--secondary-color);
 }
 
-.nav-logo {
-    font-size: 2.1rem;
-    font-weight: 500;
-    color: #482ff7;
+.logo {
+    width: 7%;
 }
 
 /* SEARCHBAR */
@@ -105,6 +109,21 @@ a {
 /* RESPONSIVE MOBILE */
 
 @media only screen and (max-width: 768px) {
+    .navbar {
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .hamburger {
+        display: block; /* Show on mobile */
+        position: absolute;
+        top: 1.5rem;
+        right: 1rem; /* Adjusted to ensure it is within the viewport */
+        cursor: pointer;
+    }
+
     .nav-menu {
         position: fixed;
         left: -100%;
@@ -126,9 +145,8 @@ a {
         margin: 2.5rem 0;
     }
 
-    .hamburger {
-        display: block;
-        cursor: pointer;
+    .searchbar {
+        display: none;
     }
 
     .hamburger.active .bar:nth-child(2) {
@@ -143,7 +161,7 @@ a {
         transform: translateY(-8px) rotate(-45deg);
     }
 
-    .searchbar {
-        display: none;
+    .logo {
+        width: 15%;
     }
 }
