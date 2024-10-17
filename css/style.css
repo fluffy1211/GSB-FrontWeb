@@ -120,7 +120,7 @@ a {
         display: block; /* Show on mobile */
         position: absolute;
         top: 1.5rem;
-        right: 1rem; /* Adjusted to ensure it is within the viewport */
+        right: 10px; /* Adjusted to ensure it is within the viewport */
         cursor: pointer;
     }
 
