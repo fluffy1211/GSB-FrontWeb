@@ -82,16 +82,20 @@ a {
 .searchbar {
     display: flex;
     align-items: center;
-    margin-left: 7rem;
+}
+
+.searchbar-input:focus {
+    border-color: var(--primary-color);
+    transition: 0.5s;
 }
 
 .searchbar-input {
-    font-size: 1.6rem;
-    padding: 0.5rem 13rem;
-    border: 1px solid #E2E8F0;
-    border-radius: 5px;
+    width: 40rem;
+    height: 3rem;
     outline: none;
-    text-align: left;
+    padding-left: 10px;
+    border: 1px solid black;
+    border-radius: 6px;
 }
 
 .searchbar-button {
@@ -99,6 +103,9 @@ a {
     cursor: pointer;
     border: 0px;
     background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .searchbar-button img {
