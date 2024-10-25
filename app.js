@@ -2,7 +2,9 @@
 const express = require('express');
 const cors = require('cors');
 const app = express();
-const port = 3000;
+require('dotenv').config();
+const PORT = process.env.PORT;
+
 
 app.use(cors());
 app.use(express.json());
@@ -41,6 +43,6 @@ app.get('/api/produits', (req, res) => {
 });
 
 // Lancer le serveur
-app.listen(port, () => {
-    console.log(`Serveur démarré sur http://localhost:${port}`);
+app.listen(PORT, () => {
+    console.log(`Serveur démarré sur http://localhost:${PORT}`);
 });
