@@ -27,19 +27,21 @@ searchButton.addEventListener('mouseout', () => {
     searchButton.src = 'assets/search-button.png';
 });
 
-fetch('http://localhost:3000/api/produits')
-.then(response => response.json())
-.then(produits => {
-    produits.forEach(produit => {
-        const produitElement = document.createElement('div');
-        produitElement.classList.add('produit');
-        produitElement.innerHTML = `
-            <h2>${produit.nom}</h2>
-            <img src="${produit.image}" alt="${produit.nom}">
-            <p>${produit.description}</p>
-            <p>Prix: ${produit.prix}€</p>
-        `;
-        main.appendChild(produitElement);
-    });
-})
-.catch(error => console.error('Erreur:', error));
+// EXEMPLE SI ON VEUT AFFICHER LES PRODUITS DANS LA PAGE
+
+// fetch('http://localhost:3000/api/produits')
+// .then(response => response.json())
+// .then(produits => {
+//     produits.forEach(produit => {
+//         const produitElement = document.createElement('div');
+//         produitElement.classList.add('produit');
+//         produitElement.innerHTML = `
+//             <h2>${produit.nom}</h2>
+//             <img src="${produit.image}" alt="${produit.nom}">
+//             <p>${produit.description}</p>
+//             <p>Prix: ${produit.prix}€</p>
+//         `;
+//         main.appendChild(produitElement);
+//     });
+// })
+// .catch(error => console.error('Erreur:', error));
