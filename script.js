@@ -3,6 +3,7 @@ const navMenu = document.querySelector(".nav-menu");
 const navLink = document.querySelectorAll(".nav-link");
 const searchButton = document.querySelector('.searchbar-button img');
 const main = document.querySelector('main');
+const card = document.querySelector('.card');
 
 
 // BURGER MENU
@@ -29,19 +30,17 @@ searchButton.addEventListener('mouseout', () => {
 
 // EXEMPLE SI ON VEUT AFFICHER LES PRODUITS DANS LA PAGE
 
-// fetch('http://localhost:3000/api/produits')
-// .then(response => response.json())
-// .then(produits => {
-//     produits.forEach(produit => {
-//         const produitElement = document.createElement('div');
-//         produitElement.classList.add('produit');
-//         produitElement.innerHTML = `
-//             <h2>${produit.nom}</h2>
-//             <img src="${produit.image}" alt="${produit.nom}">
-//             <p>${produit.description}</p>
-//             <p>Prix: ${produit.prix}€</p>
-//         `;
-//         main.appendChild(produitElement);
-//     });
-// })
-// .catch(error => console.error('Erreur:', error));
+fetch('http://localhost:3000/products')
+.then(response => response.json())
+.then(data => {
+    console.log(data);
+    data.forEach(products => {
+        const productDiv = document.createElement('div');
+        productDiv.innerHTML = `
+        <h1>${products.name}</h1>
+        <h2>${products.price}€</h2>
+        <h2>${products.description}</h2>
+        `;
+        card.appendChild(productDiv);
+    });
+})
