@@ -42,8 +42,22 @@ a {
 }
 
 .hamburger {
-    display: block; /* Show on mobile */
+    display: block;
     cursor: pointer;
+}
+
+/* Animation du burger */
+
+.hamburger.active .bar:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger.active .bar:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+}
+
+.hamburger.active .bar:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
 }
 
 .bar {
@@ -133,9 +147,6 @@ a {
 
 @media only screen and (min-width: 768px) {
     .navbar {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
         padding: 2rem 3rem;
     }
 
@@ -164,4 +175,41 @@ a {
     .logo {
         width: 7%;
     }
+}
+
+/* CARD STYLES */
+.card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin: 1rem;
+    padding: 1rem;
+    max-width: 300px;
+    text-align: center;
+}
+
+.card-img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px 8px 0 0;
+}
+
+.card-content {
+    padding: 1rem;
+}
+
+.card-title {
+    font-size: 1.5rem;
+    margin: 0.5rem 0;
+}
+
+.card-description {
+    font-size: 1rem;
+    color: #555;
+}
+
+.card-price {
+    font-size: 1.2rem;
+    color: var(--primary-color);
+    font-weight: bold;
 }
