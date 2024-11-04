@@ -111,8 +111,8 @@ a {
     color: var(--secondary-color);
 }
 
-.logo {
-    width: 15%;
+a .logo {
+    width: 25%;
 }
 
 .logo:hover {
@@ -371,12 +371,9 @@ img {
 /*login*/
 
 form {
-    background: white;
+   align-items: center;
     padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 400px;
+    max-width: 40%;
     box-sizing: border-box;
 }
 
