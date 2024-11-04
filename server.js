@@ -3,17 +3,14 @@ const express = require('express');
 const db = require('./database/db.js');
 const cors = require('cors');
 const app = express();
-const PORT = 3000;
 require('dotenv').config();
 app.use(cors());
 app.use(express.json());
 
-const productRoute = require('./routes/productRoute');
+const userRoute = require('./routes/userRoute.js');
 
-app.use('/products', productRoute);
-app.get('/products/search', productRoute.searchProducts);
+app.use('/user', userRoute);
 
-// Lancer le serveur
-app.listen(PORT, () => {
-    console.log(`Serveur démarré sur http://localhost:${PORT}`);
+app.listen(3001, () => {
+    console.log(`Serveur démarré sur http://localhost:3001`);
 });
