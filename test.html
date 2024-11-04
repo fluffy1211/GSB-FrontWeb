@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+    <div id="header-placeholder"></div>
+
+<script>
+    // Charger le header
+    fetch("header.html")
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById("header-placeholder").innerHTML = data;
+
+            // Inclure `script.js` après le chargement du header
+            const script = document.createElement("script");
+            script.src = "script.js";
+            script.defer = true;
+            
+            document.body.appendChild(script);
+        
+        });
+</script>
+</head>
+<body>
+    
+</body>
+</html>
