@@ -6,7 +6,7 @@ require('dotenv').config();
 app.use(cors());
 app.use(express.json());
 
-const userRoute = require('../routes/userRoute.js');
+const userRoute = require('./routes/userRoute.js');
 
 app.use('/user', userRoute);
 
