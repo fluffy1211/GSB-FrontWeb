@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <div id="header-placeholder"></div>
+    <script>
+        // Charger le header
+        fetch("header.html")
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById("header-placeholder").innerHTML = data;
+    
+                // Inclure `script.js` après le chargement du header
+                const script = document.createElement("script");
+                script.src = "script.js";
+                
+                document.body.appendChild(script);
+            
+            });
+    </script>
+</head>
+<body class="login-page">
+    <form action="/submit_registration" method="post">
+        <label for="email">Email/Username :</label>
+        <input type="email" id="email" name="email" required><br><br>
+        
+        <label for="password">Password :</label>
+        <input type="password" id="password" name="password" required><br><br>
+        
+        <button type="submit">Login</button><br><br>
+        <button type="submit">Logout</button>
+        <p>Vous n'avez pas de compte ? <a type="register" href="/register">Register</a></p>
+    </form>
+    
+</body>
+</html>
