@@ -3,7 +3,6 @@ const navMenu = document.querySelector(".nav-menu");
 const navLink = document.querySelectorAll(".nav-link");
 const searchInput = document.querySelector('.searchbar-input');
 
-
 // BURGER MENU
 hamburger.addEventListener("click", mobileMenu);
 function mobileMenu() {
