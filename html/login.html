@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <div id="header-placeholder"></div>
+    <script src="../js/login.js" defer></script>
+    <script>
+        // Charger le header et le footer
+        Promise.all([
+            fetch("header.html").then(response => response.text()),
+            fetch("footer.html").then(response => response.text())
+        ]).then(([headerData, footerData]) => {
+            document.getElementById("header-placeholder").innerHTML = headerData;
+            document.getElementById("footer-placeholder").innerHTML = footerData;
+            const script = document.createElement("script");
+            script.src = "../js/script.js";
+            script.defer = true;
+            document.body.appendChild(script);
+        });
+    </script>
+</head>
+<body>
+    <main>
+        <form id="login-form">
+            <label for="email">Email / Username</label>
+            <input type="email" id="email" name="email" required><br><br>
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required><br><br>
+            <button type="submit">Login</button>
+            <!-- <button id="logout-button">Logout</button> -->
+            <a id="noAccount" href="register.html"><p href="register.html">Vous n'avez pas encore de compte ?</p></a>
+        </form>
+    </main>
+    <div id="footer-placeholder"></div>
+</body>
+</html>

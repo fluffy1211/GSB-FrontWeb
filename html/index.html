@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GSB</title>
+    <link rel="icon" type="image/x-icon" href="assets/gsb-logo.png">
+    <link rel="stylesheet" href="../css/style.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- header -->
+    <div id="header-placeholder"></div>
+    <script>
+        // Charger le header et le footer
+        Promise.all([
+            fetch("header.html").then(response => response.text()),
+            fetch("footer.html").then(response => response.text())
+        ]).then(([headerData, footerData]) => {
+            document.getElementById("header-placeholder").innerHTML = headerData;
+            document.getElementById("footer-placeholder").innerHTML = footerData;
+
+            const script = document.createElement("script");
+            script.src = "../js/script.js";
+            script.defer = true;
+
+            document.body.appendChild(script);
+        });
+    </script>
+</head>
+<body>
+    <!-- MAIN -->
+    <main>
+        <!-- SLIDER -->
+        <div id="slider">
+            <h1 class="title-gsb">Bienvenue chez GSB</h1>
+            <img src="../assets/medicaments_1.jpg" alt="" id="slide">
+            <div id="previous">&#60;</div>
+            <div id="next">></div>
+        </div>
+        <h1 class="title-products">NOS PRODUITS</h1>
+        <div id="card-container">
+            <div class="card">
+                <img src="../assets/doliprane.png" alt="Card Title 1" class="card-img">
+                <div class="card-content">
+                    <h2 class="card-title">Card Title 1</h2>
+                    <p class="card-description">Description for card 1.</p>
+                    <p class="card-price">$10.00</p>
+                </div>
+            </div>
+            <div class="card">
+                <img src="../assets/pilules.png" alt="Card Title 2" class="card-img">
+                <div class="card-content">
+                    <h2 class="card-title">Card Title 2</h2>
+                    <p class="card-description">Description for card 2.</p>
+                    <p class="card-price">$20.00</p>
+                </div>
+            </div>
+            <div class="card">
+                <img src="../assets/card3.jpg" alt="Card Title 3" class="card-img">
+                <div class="card-content">
+                    <h2 class="card-title">Card Title 3</h2>
+                    <p class="card-description">Description for card 3.</p>
+                    <p class="card-price">$30.00</p>
+                </div>
+            </div>
+            <div class="card">
+                <img src="../assets/card4.jpg" alt="Card Title 4" class="card-img">
+                <div class="card-content">
+                    <h2 class="card-title">Card Title 4</h2>
+                    <p class="card-description">Description for card 4.</p>
+                    <p class="card-price">$40.00</p>
+                </div>
+            </div>
+            <div class="card">
+                <img src="../assets/doliprane.png" alt="Card Title 5" class="card-img">
+                <div class="card-content">
+                    <h2 class="card-title">Card Title 5</h2>
+                    <p class="card-description">Description for card 5.</p>
+                    <p class="card-price">$50.00</p>
+                </div>
+            </div>
+            <div class="card">
+                <img src="../assets/card6.jpg" alt="Card Title 6" class="card-img">
+                <div class="card-content">
+                    <h2 class="card-title">Card Title 6</h2>
+                    <p class="card-description">Description for card 6.</p>
+                    <p class="card-price">$60.00</p>
+                </div>
+            </div>
+            <div class="card">
+                <img src="../assets/card7.jpg" alt="Card Title 7" class="card-img">
+                <div class="card-content">
+                    <h2 class="card-title">Card Title 7</h2>
+                    <p class="card-description">Description for card 7.</p>
+                    <p class="card-price">$70.00</p>
+                </div>
+            </div>
+            <div class="card">
+                <img src="../assets/card8.jpg" alt="Card Title 8" class="card-img">
+                <div class="card-content">
+                    <h2 class="card-title">Card Title 8</h2>
+                    <p class="card-description">Description for card 8.</p>
+                    <p class="card-price">$80.00</p>
+                </div>
+            </div>
+        </div>
+    </main>
+    <div id="footer-placeholder"></div>
+</body>
+</html>
