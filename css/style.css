@@ -82,7 +82,7 @@ a {
 .nav-menu {
     position: fixed;
     left: -100%;
-    top: 5rem;
+    top: 6rem;
     flex-direction: column;
     background-color: #fff;
     width: 100%;
@@ -270,21 +270,26 @@ img {
     font-size: 3.5rem;
 }
 
+#card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
 .card {
+    flex: 1 1 calc(25% - 2rem);
+    max-width: calc(25% - 2rem);
+    margin: 1rem;
+    box-sizing: border-box;
     border: 1px solid #ddd;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    margin: 1rem;
-    padding: 1rem;
-    max-width: 100%;
     text-align: center;
-    flex: 1 1 100%;
-    /* 1 card per row on mobile */
+    transition: 0.4s;
 }
 
 .card:hover {
     border-color: var(--secondary-color);
-    transition: 0.4s;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -314,12 +319,6 @@ img {
     font-weight: bold;
 }
 
-#card-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
 /* Form styles for both login and register */
 #login-form,
 #register-form {
@@ -346,8 +345,7 @@ label {
 /* Input styles for all form fields */
 input[type="email"],
 input[type="password"],
-input[type="username"]
- {
+input[type="username"] {
     width: 100%;
     padding: 15px;
     margin-bottom: 25px;

@@ -1,7 +1,18 @@
+Promise.all([
+    fetch("header.html").then(response => response.text()),
+    fetch("footer.html").then(response => response.text())
+]).then(([headerData, footerData]) => {
+    document.getElementById("header-placeholder").innerHTML = headerData;
+    document.getElementById("footer-placeholder").innerHTML = footerData;
+});
+
+
 const hamburger = document.querySelector(".hamburger");
 const navMenu = document.querySelector(".nav-menu");
 const navLink = document.querySelectorAll(".nav-link");
 const searchInput = document.querySelector('.searchbar-input');
+
+console.log(hamburger)
 
 // BURGER MENU
 hamburger.addEventListener("click", mobileMenu);
@@ -47,3 +58,5 @@ next.addEventListener("click", () => {
 previous.addEventListener("click", () => {
     ChangeSlide(-1);
 });
+
+console.log('loaded');
