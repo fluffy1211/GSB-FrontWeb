@@ -263,6 +263,10 @@ img {
     opacity: 1;
 }
 
+main {
+    width: 100vw;
+}
+
 /* CARD STYLES */
 .title-products {
     text-align: center;
@@ -325,7 +329,6 @@ img {
 #register-form {
     margin: 5rem auto;
     width: 90%;
-    min-width: 400px;
     padding: 30px;
 }
 
