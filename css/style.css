@@ -30,6 +30,10 @@ body {
     margin: 2rem 0;
 }
 
+main {
+    width: 100vw;
+}
+
 /* HEADER */
 li {
     list-style: none;
@@ -113,9 +117,18 @@ a {
 }
 
 /* Mobile-first logo */
-a .logo {
-    width: 25%;
+
+a.logo-link {
+    display: inline-block; /* Ensure the anchor tag takes the same space as the image */
+    width: auto;
 }
+
+
+img.logo {
+    width: 70px;
+    height: auto;
+}
+
 
 .logo:hover {
     cursor: pointer;
@@ -188,7 +201,7 @@ footer a:hover {
     font-size: 30px;
 }
 
-img {
+#slide {
     width: 100%;
     background-position-x: -1;
 }
@@ -263,9 +276,6 @@ img {
     opacity: 1;
 }
 
-main {
-    width: 100vw;
-}
 
 /* CARD STYLES */
 .title-products {
@@ -431,8 +441,9 @@ a[type="register"]:hover {
         margin-left: 6rem;
     }
 
-    .logo {
-        width: 7%;
+    img.logo {
+        width: 90px;
+        height: auto;
     }
 
     .card {
