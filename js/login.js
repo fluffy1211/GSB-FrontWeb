@@ -2,7 +2,7 @@ const loginForm = document.getElementById('login-form');
 
 console.log('loaded');
 
-// Function to set a cookie
+// Ajouter un cookie
 function setCookie(name, value, days) {
     const date = new Date();
     date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
@@ -10,7 +10,7 @@ function setCookie(name, value, days) {
     document.cookie = name + "=" + value + ";" + expires + ";path=/";
 }
 
-// Function to delete a cookie
+// Supprimer un cookie
 function deleteCookie(name) {
     document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;";
 }
