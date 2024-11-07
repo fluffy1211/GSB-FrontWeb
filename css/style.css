@@ -160,7 +160,7 @@ img.logo {
     background-color: white;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: center; 
 }
 
 i {
@@ -334,10 +334,38 @@ footer a:hover {
     font-weight: bold;
 }
 
+/* PROFILE */
+
+#welcome-msg {
+    text-align: center;
+    margin: 2rem 0;
+    font-size: 2rem;
+}
+
+#welcome-msg a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+#logoutBtn {
+    display: flex;
+    justify-content: center;
+    margin: 2rem auto;
+    padding: 10px 20px;
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1.8rem;
+    cursor: pointer;
+    width: 20%;
+}
+
+
 /* Form styles for both login and register */
 #login-form,
 #register-form {
-    margin: 5rem auto;
+    margin: 2rem auto;
     width: 90%;
     padding: 30px;
 }
@@ -384,6 +412,13 @@ button[type="submit"] {
 
 button[type="submit"]:hover {
     background-color: #0056b3;
+}
+
+#error-msg {
+    color: red;
+    font-size: 1rem;
+    text-align: center;
+    margin-top: 2rem;
 }
 
 /* Account link styles */

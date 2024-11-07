@@ -1,4 +1,6 @@
 const loginForm = document.getElementById('login-form');
+const errorMsg = document.getElementById('error-msg');
+
 
 console.log('loaded');
 
@@ -18,6 +20,7 @@ function deleteCookie(name) {
 // LOGIN
 loginForm.addEventListener('submit', async function(event) {
     event.preventDefault();
+    errorMsg.innerHTML = '';
 
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
@@ -33,23 +36,21 @@ loginForm.addEventListener('submit', async function(event) {
 
         const result = await response.json();
         if (response.ok) {
-            console.log('Login successful:', result);
-            setCookie('jwt', result.token, 1); // Store le token dans un cookie pendant 1 jour
-            // Ajouter la redirection vers la page d'accueil par exemple
+            setCookie('jwt', result.token, 1); // Store the token in a cookie for 1 day
+            document.location.href = '/index.html';
         } else {
-            console.error('Login failed:', result);
+            if (result === 'Cet utilisateur n\'existe pas') {
+                errorMsg.innerHTML = 'Utilisateur non trouvé. Veuillez vérifier votre email ou mot de passe.';
+            } else if (result === 'Mot de passe incorrect') {
+                errorMsg.innerHTML = 'Mot de passe incorrect. Veuillez réessayer.';
+            } else {
+                errorMsg.innerHTML = 'Erreur lors de la connexion. Veuillez réessayer.';
+            }
         }
     } catch (error) {
         console.error('Error:', error);
+        errorMsg.innerHTML = 'Erreur lors de la connexion. Veuillez réessayer.';
     }
 });
 
-// LOGOUT
-const logoutButton = document.getElementById('logout-button');
-if (logoutButton) {
-    logoutButton.addEventListener('click', function() {
-        deleteCookie('jwt');
-        console.log('Logged out');
-        // Ajouter la redirection vers une page de logout par exemple
-    });
-}
+
