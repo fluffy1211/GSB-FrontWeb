@@ -18,13 +18,15 @@
     <main>
         <!-- FORM DE REGISTER -->
         <form id="register-form">
-            <label for="name">Username</label>
+            <label for="name">Nom d'utilisateur</label>
             <input type="username" id="name" name="name" required>
+            <p id="user-alert"></p>
             <label for="email">Email</label>
             <input type="email" id="email" name="email" required>
-            <label for="password">Password</label>
+            <label for="password">Mot de passe</label>
             <input type="password" id="password" name="password" required>
-            <button type="submit">Register</button>
+            <p id="password-alert"></p>
+            <button type="submit">S'enregistrer</button>
             <a class="account-link" href="login.html">Vous possédez déjà un compte ?</a>
             <p id="error-msg"></p>
         </form>
