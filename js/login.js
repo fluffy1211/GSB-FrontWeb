@@ -1,5 +1,7 @@
 const loginForm = document.getElementById('login-form');
 const errorMsg = document.getElementById('error-msg');
+const passwordAlert = document.getElementById('password-alert');
+const userAlert = document.getElementById('user-alert');
 
 
 console.log('loaded');
@@ -20,7 +22,8 @@ function deleteCookie(name) {
 // LOGIN
 loginForm.addEventListener('submit', async function(event) {
     event.preventDefault();
-    errorMsg.innerHTML = '';
+    passwordAlert.innerHTML = '';
+    userAlert.innerHTML = '';
 
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
@@ -40,9 +43,9 @@ loginForm.addEventListener('submit', async function(event) {
             document.location.href = '/index.html';
         } else {
             if (result === 'Cet utilisateur n\'existe pas') {
-                errorMsg.innerHTML = 'Utilisateur non trouvé. Veuillez vérifier votre email ou mot de passe.';
+                userAlert.innerHTML = 'Utilisateur non trouvé. Veuillez vérifier votre email ou mot de passe.';
             } else if (result === 'Mot de passe incorrect') {
-                errorMsg.innerHTML = 'Mot de passe incorrect. Veuillez réessayer.';
+                passwordAlert.innerHTML = 'Mot de passe incorrect. Veuillez réessayer.';
             } else {
                 errorMsg.innerHTML = 'Erreur lors de la connexion. Veuillez réessayer.';
             }

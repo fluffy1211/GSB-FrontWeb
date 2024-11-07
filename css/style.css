@@ -386,6 +386,7 @@ label {
 
 /* Input styles for all form fields */
 input[type="email"],
+input[type="eusername"],
 input[type="password"],
 input[type="username"] {
     width: 100%;
@@ -414,11 +415,14 @@ button[type="submit"]:hover {
     background-color: #0056b3;
 }
 
-#error-msg {
+#password-alert {
     color: red;
     font-size: 1rem;
-    text-align: center;
-    margin-top: 2rem;
+}
+
+#user-alert {
+    color: red;
+    font-size: 1rem;
 }
 
 /* Account link styles */
