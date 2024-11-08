@@ -1,4 +1,3 @@
-const logoutBtn = document.getElementById('logoutBtn');
 const nav = document.querySelector('.nav-item');
 
 // Function to get a cookie by name
@@ -33,7 +32,6 @@ if (!token) {
 if (token) {
     const user = parseJwt(token);
     if (user) {
-        const welcomeMsg = document.getElementById('welcome-msg');
-        welcomeMsg.innerHTML = `Bienvenue, ${user.name}`;
+
     }
 }
