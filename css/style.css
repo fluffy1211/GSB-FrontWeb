@@ -7,6 +7,24 @@
     --tertiary-color: #1c9a39;
 }
 
+.disabled {
+    display: none;
+}
+
+.popup-active {
+    border: var(--tertiary-color) solid 2px;
+    color: var(--tertiary-color);
+    background-color: white;
+    z-index: 10;
+    padding: 2rem;
+    border-radius: 20px;
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -239,7 +257,6 @@ footer a:hover {
     display: flex;
     align-items: center;
     overflow: hidden;
-    margin-bottom: 15px;
 }
 
 #slider img {
@@ -336,15 +353,10 @@ footer a:hover {
 
 /* PROFILE */
 
-#welcome-msg {
+#profile-msg {
     text-align: center;
+    font-size: 1.8rem;
     margin: 2rem 0;
-    font-size: 2rem;
-}
-
-#welcome-msg a {
-    color: var(--primary-color);
-    text-decoration: none;
 }
 
 #logoutBtn {
@@ -452,6 +464,26 @@ a[type="register"]:hover {
     text-decoration: underline;
 }
 
+/* INDEX */
+
+#welcome {
+    text-align: center;
+    font-size: 2rem;
+    color: white;
+    padding: 5rem 2rem; /* Add padding around text */
+}
+
+.welcome-section {
+    height: 65vh;
+    width: 68.5%;
+    background-color: var(--secondary-color);
+    display: flex;
+    align-items: flex-start;  /* Align items to the start */
+    justify-content: center;
+    margin: 0 auto;
+    padding-top: 4rem; /* Add padding to push text down a bit */
+}
+
 /* DESKTOP STYLES */
 @media only screen and (min-width: 768px) {
     .navbar {
@@ -496,6 +528,14 @@ a[type="register"]:hover {
         width: 40%;
         min-width: 400px;
     }
+
+    .nav-icon {
+        display: block;
+    }
+
+    .nav-text {
+        display: none;
+    }
 }
 
 @media only screen and (max-width: 600px) {
@@ -505,5 +545,20 @@ a[type="register"]:hover {
 
     button {
         font-size: 14px;
+    }
+}
+
+.nav-icon {
+    width: 30px;
+    height: 30px;
+}
+
+/* Mobile - hide icons, show text */
+@media only screen and (max-width: 767px) {
+    .nav-icon {
+        display: none;
+    }
+    .nav-text {
+        display: block;
     }
 }

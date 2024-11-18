@@ -33,7 +33,9 @@ if (!token) {
 if (token) {
     const user = parseJwt(token);
     if (user) {
-        const welcomeMsg = document.getElementById('welcome-msg');
-        welcomeMsg.innerHTML = `Bienvenue, ${user.name}`;
+        const profileMsg = document.getElementById('profile-msg');
+        profileMsg.innerHTML = `Bienvenue, ${user.name}`;
     }
 }
+
+console.log('token:', token);
