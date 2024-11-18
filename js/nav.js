@@ -1,5 +1,3 @@
-const nav = document.querySelector('.nav-item');
-
 // Function to get a cookie by name
 function getCookie(name) {
     const value = `; ${document.cookie}`;
@@ -12,7 +10,7 @@ function parseJwt(token) {
     try {
         const base64Url = token.split('.')[1];
         const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-        const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+        const jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
             return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
         }).join(''));
         return JSON.parse(jsonPayload);
@@ -22,16 +20,26 @@ function parseJwt(token) {
     }
 }
 
-// Get the JWT token from the cookie
-const token = getCookie('jwt');
+const checkElements = setInterval(() => {
+    const loginLink = document.querySelector('.nav-link[href="login.html"]');
+    const panierLink = document.querySelector('.nav-link[href="panier.html"]');
+    const loginRemoved = document.getElementById('loginremoved');
+    const panierRemoved = document.getElementById('panierremoved');
 
-if (!token) {
-    logoutBtn.style.display = 'none';
-}
+    if (loginLink && panierLink) {
+        clearInterval(checkElements);
 
-if (token) {
-    const user = parseJwt(token);
-    if (user) {
+        const token = getCookie('jwt');
 
+        if (token) {
+            const user = parseJwt(token);
+            if (user) {
+                loginRemoved.style.display = 'none';
+                panierLink.style.display = 'block';
+            }
+        } else {
+            loginLink.style.display = 'block';
+            panierRemoved.style.display = 'none';
+        }
     }
-}
+}, 100);

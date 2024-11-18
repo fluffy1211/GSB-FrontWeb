@@ -26,5 +26,3 @@ document.getElementById("next").addEventListener("click", () => {
 document.getElementById("previous").addEventListener("click", () => {
     ChangeSlide(-1);
 });
-
-console.log('loaded');

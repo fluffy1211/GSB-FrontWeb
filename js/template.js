@@ -12,8 +12,6 @@ Promise.all([
         const navLink = document.querySelectorAll(".nav-link");
         const searchInput = document.querySelector('.searchbar-input');
 
-        console.log(hamburger);
-
         // BURGER MENU
         function mobileMenu() {
             hamburger.classList.toggle("active");
