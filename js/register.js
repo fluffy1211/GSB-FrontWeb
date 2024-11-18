@@ -31,6 +31,11 @@ registerForm.addEventListener('submit', async function (event) {
         return;
     }
 
+    if (password !== confirmPassword) {
+        passwordAlert.innerHTML += "Les mots de passe ne correspondent pas.";
+        return;
+    }
+
     // If all validations pass, proceed with the fetch request
     const response = await fetch('http://localhost:3001/user/register', {
         method: 'POST',
@@ -52,9 +57,6 @@ registerForm.addEventListener('submit', async function (event) {
         } else  {
             errorMsg.innerHTML = 'Erreur lors de l\'inscription. Veuillez réessayer.';
         }
-    }
-    if (password !== confirmPassword) {
-        passwordAlert.innerHTML += "Les mots de passe ne correspondent pas.";
     }
 });
 
