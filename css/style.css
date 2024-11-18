@@ -145,11 +145,14 @@ a.logo-link {
 img.logo {
     width: 70px;
     height: auto;
+    transition: 0.5s;
 }
 
 
 .logo:hover {
     cursor: pointer;
+    opacity: 50%;
+    transition: 0.5s;
 }
 
 /* Mobile-first searchbar (hidden by default) */
@@ -159,11 +162,12 @@ img.logo {
 
 .searchbar-input {
     width: 40rem;
-    height: 3rem;
+    height: 4rem;
     outline: none;
     padding-left: 10px;
-    border: 1px solid black;
-    border-radius: 6px;
+    border: 1.5px solid black;
+    border-radius: 35px;
+    font-size: 1.4rem;
 }
 
 .searchbar-input:focus {
@@ -484,6 +488,37 @@ a[type="register"]:hover {
     padding-top: 4rem; /* Add padding to push text down a bit */
 }
 
+/* CGV Page Styles */
+.cgv-main {
+    padding: 1rem;
+    max-width: 100%;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.cgv-section {
+    margin-bottom: 1.5rem;
+    text-align: center;
+    padding: 2rem;
+}
+
+.cgv-title {
+    font-size: 1.8rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.cgv-list {
+    list-style-type: disc;
+    padding-left: 1.5rem;
+    text-align: center;
+}
+
+.cgv-list li {
+    margin-bottom: 0.5rem;
+}
+
 /* DESKTOP STYLES */
 @media only screen and (min-width: 768px) {
     .navbar {
@@ -509,7 +544,7 @@ a[type="register"]:hover {
     .searchbar {
         display: flex;
         align-items: center;
-        margin-left: 6rem;
+        margin-left: 11.5rem;
     }
 
     img.logo {
@@ -531,10 +566,26 @@ a[type="register"]:hover {
 
     .nav-icon {
         display: block;
+        transition: 0.5s;
+    }
+
+    .nav-icon:hover {
+        cursor: pointer;
+        opacity: 50%;
+        transition: 0.5s;
     }
 
     .nav-text {
         display: none;
+    }
+
+    .cgv-main {
+        padding: 2rem;
+        max-width: 600px;
+    }
+
+    .cgv-title {
+        font-size: 2rem;
     }
 }
 
