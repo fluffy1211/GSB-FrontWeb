@@ -12,7 +12,9 @@ registerForm.addEventListener('submit', async function (event) {
 
     const name = document.getElementById('name').value;
     const email = document.getElementById('email').value;
+    const confirmPassword = document.getElementById('password-confirm').value;
     const password = document.getElementById('password').value;
+    
 
     // Regex patterns
     const namePattern = /^[a-zA-Z]{3,16}$/; // Only letters, between 3 and 30 characters
@@ -38,6 +40,7 @@ registerForm.addEventListener('submit', async function (event) {
         body: JSON.stringify({ name, email, password })
     });
 
+
     const result = await response.json();
     if (response.ok) {
         document.location.href = 'login.html';
@@ -46,8 +49,13 @@ registerForm.addEventListener('submit', async function (event) {
             userAlert.innerHTML = 'Cet email est déjà utilisé';
         } else if (result === 'Ce nom d\'utilisateur est déjà pris') {
             userAlert.innerHTML = 'Ce nom d\'utilisateur est déjà pris';
-        } else {
+        } else  {
             errorMsg.innerHTML = 'Erreur lors de l\'inscription. Veuillez réessayer.';
         }
     }
+    if (password !== confirmPassword) {
+        passwordAlert.innerHTML += "Les mots de passe ne correspondent pas.";
+    }
 });
+
+//partie ajoutée pour confirmer le mot de passe
