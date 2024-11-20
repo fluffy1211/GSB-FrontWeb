@@ -59,5 +59,3 @@ registerForm.addEventListener('submit', async function (event) {
         }
     }
 });
-
-//partie ajoutée pour confirmer le mot de passe

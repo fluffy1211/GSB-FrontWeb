@@ -7,7 +7,9 @@ app.use(cors());
 app.use(express.json());
 
 const userRoute = require('./routes/userRoute.js');
+const productsRoute = require('./routes/productsRoute.js');
 
+app.use('/products', productsRoute);
 app.use('/user', userRoute);
 
 app.listen(3001, () => {
