@@ -519,6 +519,15 @@ a[type="register"]:hover {
     margin-bottom: 0.5rem;
 }
 
+/* CART */
+
+.cart-title {
+    text-align: center;
+    margin: 4rem 0;
+    color: var(--primary-color);
+    font-size: 2rem;
+}
+
 /* DESKTOP STYLES */
 @media only screen and (min-width: 768px) {
     .navbar {
@@ -544,7 +553,7 @@ a[type="register"]:hover {
     .searchbar {
         display: flex;
         align-items: center;
-        margin-left: 11.5rem;
+        margin-left: 8rem;
     }
 
     img.logo {
@@ -573,6 +582,7 @@ a[type="register"]:hover {
         cursor: pointer;
         opacity: 50%;
         transition: 0.5s;
+        
     }
 
     .nav-text {

@@ -21,12 +21,11 @@ function parseJwt(token) {
 }
 
 const checkElements = setInterval(() => {
-    const loginLink = document.querySelector('.nav-link[href="login.html"]');
-    const panierLink = document.querySelector('.nav-link[href="panier.html"]');
-    const loginRemoved = document.getElementById('loginremoved');
-    const panierRemoved = document.getElementById('panierremoved');
+    const loginIcon = document.getElementById('login');
+    const panierIcon = document.getElementById('panier');
+    const profilIcon = document.getElementById('profil');
 
-    if (loginLink && panierLink) {
+    if (loginIcon && panierIcon && profilIcon) {
         clearInterval(checkElements);
 
         const token = getCookie('jwt');
@@ -34,12 +33,14 @@ const checkElements = setInterval(() => {
         if (token) {
             const user = parseJwt(token);
             if (user) {
-                loginRemoved.style.display = 'none';
-                panierLink.style.display = 'block';
+                loginIcon.style.display = 'none';
+                panierIcon.style.display = 'block';
+                profilIcon.style.display = 'block';
             }
         } else {
-            loginLink.style.display = 'block';
-            panierRemoved.style.display = 'none';
+            loginIcon.style.display = 'block';
+            panierIcon.style.display = 'none';
+            profilIcon.style.display = 'none';
         }
     }
 }, 100);
