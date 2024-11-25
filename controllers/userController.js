@@ -32,11 +32,14 @@ exports.register = async (req, res) => {
         // Insert the new user
         const insertUserQuery = 'INSERT INTO clients (email, password, name) VALUES (?, ?, ?)';
         const insertUserValues = [email, hashedPassword, name];
-        await conn.query(insertUserQuery, insertUserValues);
+        const result = await conn.query(insertUserQuery, insertUserValues);
+        const userId = result.insertId; // Get the inserted user's ID
+        console.log('New user ID:', userId); // Log the new user ID
         conn.release();
 
         // Create a token
-        const token = jwt.sign({ email, name }, process.env.API_KEY, { expiresIn: '1h' });
+        const token = jwt.sign({ id: userId, email, name }, process.env.API_KEY, { expiresIn: '1h' });
+        console.log('Generated token:', token); // Log the generated token
         res.status(201).send({ token });
     } catch (error) {
         console.log(error);
@@ -59,6 +62,7 @@ exports.login = async (req, res) => {
             return res.status(400).json('Cet utilisateur n\'existe pas');
         }
         const user = result[0];
+        console.log('User found:', user); // Log the found user
 
         // On compare les mots de passe hashés pour vérifier si c'est le bon
         const passwordMatch = await bcrypt.compare(password, user.password);
@@ -67,7 +71,8 @@ exports.login = async (req, res) => {
         }
 
         // On crée un token qui dure 1h
-        const token = jwt.sign({ email: user.email, name: user.name }, process.env.API_KEY, { expiresIn: '1h' });
+        const token = jwt.sign({ id: user.client_id, email: user.email, name: user.name }, process.env.API_KEY, { expiresIn: '1h' });
+        console.log('Generated token:', token); // Log the generated token
         res.status(200).json({ token: token });
     } catch (err) {
         console.error(err);
