@@ -1,7 +1,7 @@
 const registerForm = document.getElementById('register-form');
 const errorMsg = document.getElementById('error-msg');
-const userAlert = document.getElementById('user-alert')
-const passwordAlert = document.getElementById('password-alert')
+const userAlert = document.getElementById('user-alert');
+const passwordAlert = document.getElementById('password-alert');
 
 // REGISTER
 registerForm.addEventListener('submit', async function (event) {
@@ -14,29 +14,34 @@ registerForm.addEventListener('submit', async function (event) {
     const email = document.getElementById('email').value;
     const confirmPassword = document.getElementById('password-confirm').value;
     const password = document.getElementById('password').value;
-    
 
     // Regex patterns
-    const namePattern = /^[a-zA-Z]{3,16}$/; // Only letters, between 3 and 30 characters
-    const passwordPattern = /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/; // Minimum 8 characters, at least one uppercase letter and one number
+    const namePattern = /^[a-zA-Z]{3,16}$/; // Only letters, between 3 and 16 characters
+    const passwordPattern = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?])[A-Za-z\d!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]{6,}$/;
 
     // Validate fields
+    let isValid = true;
+
     if (!namePattern.test(name)) {
-        userAlert.innerHTML += "Merci de renseigner un nom valide (3 caractères minimum)";
-        return;
+        userAlert.innerHTML += "Merci de renseigner un nom valide (3 caractères minimum, pas de chiffre).";
+        isValid = false;
     }
 
     if (!passwordPattern.test(password)) {
-        passwordAlert.innerHTML += "MDP : 8 caractères minimum, 1 lettre majuscule, 1 chiffre";
-        return;
+        passwordAlert.innerHTML += "MDP : 6 caractères minimum, 1 lettre majuscule, 1 chiffre, 1 caractère spécial.";
+        isValid = false;
     }
 
     if (password !== confirmPassword) {
         passwordAlert.innerHTML += "Les mots de passe ne correspondent pas.";
-        return;
+        isValid = false;
     }
 
-    // If all validations pass, proceed with the fetch request
+    if (!isValid) {
+        return; // Exit the function if validation fails
+    }
+
+    // Si tout est bon, on envoie la requête
     const response = await fetch('http://localhost:3001/user/register', {
         method: 'POST',
         headers: {
@@ -45,17 +50,11 @@ registerForm.addEventListener('submit', async function (event) {
         body: JSON.stringify({ name, email, password })
     });
 
-
+    // Si la requête est un succès, on redirige l'utilisateur vers la page de login
     const result = await response.json();
     if (response.ok) {
         document.location.href = 'login.html';
     } else {
-        if (result === 'Cet email est déjà utilisé') {
-            userAlert.innerHTML = 'Cet email est déjà utilisé';
-        } else if (result === 'Ce nom d\'utilisateur est déjà pris') {
-            userAlert.innerHTML = 'Ce nom d\'utilisateur est déjà pris';
-        } else  {
-            errorMsg.innerHTML = 'Erreur lors de l\'inscription. Veuillez réessayer.';
-        }
+        errorMsg.innerHTML = result.message || 'Erreur lors de l\'inscription. Veuillez réessayer.';
     }
 });
