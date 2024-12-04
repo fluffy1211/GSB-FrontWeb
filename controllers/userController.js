@@ -71,7 +71,7 @@ exports.login = async (req, res) => {
         }
 
         // On crée un token qui dure 1h
-        const token = jwt.sign({ id: user.client_id, email: user.email, name: user.name }, process.env.API_KEY, { expiresIn: '1h' });
+        const token = jwt.sign({ id: user.client_id, email: user.email, name: user.name, role: user.role }, process.env.API_KEY, { expiresIn: '1h' });
         console.log('Generated token:', token); // Log the generated token
         res.status(200).json({ token: token });
     } catch (err) {
