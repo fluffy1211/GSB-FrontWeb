@@ -1,9 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const verifyAdmin = require('../middleware/auth');
+const adminController = require('../controllers/adminController.js');
 
-router.get('/admin', verifyAdmin, (req, res) => {
-    res.send('Welcome to the admin page.');
-});
+router.post('/add', adminController.addProduct)
+
 
 module.exports = router;

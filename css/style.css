@@ -527,6 +527,39 @@ a[type="register"]:hover {
     color: var(--primary-color);
     font-size: 2rem;
 }
+/*PAGE ADMIN*/
+.inventory-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.inventory-table th {
+    background-color: #2c3e50;
+    color: white;
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #34495e;
+}
+
+.inventory-table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+
+.inventory-table input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+.inventory-table input:focus {
+    outline: none;
+    border-color: #3498db;
+}
 
 /* DESKTOP STYLES */
 @media only screen and (min-width: 768px) {

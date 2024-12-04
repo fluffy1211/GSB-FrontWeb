@@ -1,6 +1,6 @@
 const cartBtns = document.querySelectorAll('.cart-btn');
 const popup = document.getElementById('popup');
-
+ 
 // Afficher les produits dans les cards
 const cardsContainer = document.getElementById('card-container');
 async function getProducts() {
@@ -24,38 +24,15 @@ async function getProducts() {
         console.error('Error:', error);
     }
 }
-
+ 
 getProducts();
-
+ 
 function getCookie(name) {
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${name}=`);
     if (parts.length === 2) return parts.pop().split(';').shift();
 }
-
-function parseJwt(token) {
-    try {
-        const base64Url = token.split('.')[1];
-        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-        const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
-            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-        }).join(''));
-        console.log('Full decoded payload:', JSON.parse(jsonPayload)); // Add this line
-        return JSON.parse(jsonPayload);
-    } catch (error) {
-        console.error('Error parsing JWT token:', error);
-        return null;
-    }
-}
-
-const jwtToken = getCookie('jwt');
-if (jwtToken) {
-    const decodedPayload = parseJwt(jwtToken);
-    console.log('Decoded JWT Payload:', decodedPayload);
-} else {
-    console.error('JWT token not found in cookies');
-}
-
+ 
 // Ajout au panier
 cartBtns.forEach(cartBtn => {
     cartBtn.addEventListener('click', async e => {
@@ -71,20 +48,11 @@ cartBtns.forEach(cartBtn => {
         try {
             const jwtToken = getCookie('jwt');
             console.log('Token:', jwtToken);
-            const decodedToken = parseJwt(jwtToken);
-            const clientId = decodedToken ? decodedToken.id : null;
-            console.log('Client ID:', clientId); // Log the client ID
-
-            if (!clientId) {
-                console.error('Client ID is missing in token!');
-                return;
-            }
-
             const response = await fetch('http://localhost:3001/cart/add', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${jwtToken}` // Utiliser le token JWT
+                    'Authorization': `Bearer ${jwtToken}`
                 },
                 body: JSON.stringify({ id_product: productId, quantity: quantity })
             });
@@ -104,6 +72,3 @@ cartBtns.forEach(cartBtn => {
         }
     });
 });
-
-
-

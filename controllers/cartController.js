@@ -21,7 +21,7 @@ exports.addToCart = async (req, res) => {
         const { id_product, quantity } = req.body;
 
         if (!id_product || !quantity) {
-            return res.status(400).json({ error: 'Missing required fields' });
+            return res.status(400).json({ error: 'champs manquants' });
         }
 
         try {
@@ -29,7 +29,7 @@ exports.addToCart = async (req, res) => {
             const [product] = await database.query('SELECT price FROM products WHERE id_product = ?', [id_product]);
 
             if (!product) {
-                return res.status(404).json({ error: 'Product not found' });
+                return res.status(404).json({ error: 'Produit non trouvé' });
             }
 
             const productPrice = product.price;
@@ -38,7 +38,7 @@ exports.addToCart = async (req, res) => {
             let [cart] = await database.query('SELECT * FROM carts WHERE client_id = ?', [client_id]);
 
             if (!cart) {
-                // En créer un nouveau si il n'en a pas
+                // En créer un nouveau si il n'y en a pas
                 const newCartContent = JSON.stringify([{ id_product, quantity, price: productPrice }]);
                 await database.query('INSERT INTO carts (client_id, cart_content) VALUES (?, ?)', [client_id, newCartContent]);
             } else {
@@ -55,17 +55,17 @@ exports.addToCart = async (req, res) => {
                     cartContent.push({ id_product, quantity, price: productPrice });
                 }
 
-                // Update the cart in the database
+                // Update le cart dans la database
                 await database.query('UPDATE carts SET cart_content = ? WHERE client_id = ?', [
                     JSON.stringify(cartContent),
                     client_id
                 ]);
             }
 
-            res.status(200).json({ message: 'Product added to cart' });
+            res.status(200).json({ message: 'produit ajouté' });
         } catch (error) {
-            console.error('Error adding to cart:', error);
-            res.status(500).json({ error: 'Internal server error' });
+            console.error("Erreur dans l'ajout au cart", error);
+            res.status(500).json({ error: 'Erreur interne' });
         }
     });
 };
@@ -96,7 +96,7 @@ exports.getCart = async (req, res) => {
 
             res.status(200).json({ items: cartContent });
         } catch (err) {
-            console.error('Error fetching cart:', err);
+            console.error('Erreur dans le fetching du cart:', err);
             res.status(500).send('Internal server error');
         }
     });
@@ -118,7 +118,7 @@ exports.removeProductFromCart = async (req, res) => {
         const { id_product } = req.body;
 
         if (!id_product) {
-            return res.status(400).json({ error: 'Missing required fields' });
+            return res.status(400).json({ error: 'champs manquants' });
         }
 
         try {
@@ -126,7 +126,7 @@ exports.removeProductFromCart = async (req, res) => {
             let [cart] = await database.query('SELECT * FROM carts WHERE client_id = ?', [client_id]);
 
             if (!cart) {
-                return res.status(404).json({ error: 'Cart not found' });
+                return res.status(404).json({ error: 'Cart non trouvé' });
             }
 
             // Parse the current cart content
@@ -135,7 +135,7 @@ exports.removeProductFromCart = async (req, res) => {
             // Check if the product is in the cart
             const productIndex = cartContent.findIndex(item => item.id_product === id_product);
             if (productIndex === -1) {
-                return res.status(404).json({ error: 'Product not found in cart' });
+                return res.status(404).json({ error: 'Produit non trouvé dans le cart' });
             }
 
             // Remove the product from the cart
@@ -147,9 +147,9 @@ exports.removeProductFromCart = async (req, res) => {
                 client_id
             ]);
 
-            res.status(200).json({ message: 'Product removed from cart' });
+            res.status(200).json({ message: 'Produits supprimés du cart' });
         } catch (error) {
-            console.error('Error removing from cart:', error);
+            console.error('erreur dans la suppression du cart:', error);
             res.status(500).send('Internal server error');
         }
     });
