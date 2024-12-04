@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="js/template.js" defer></script>
+    <script src="js/nav.js" defer></script>
+    <script src="js/products.js" defer></script>
+    <script src="js/cart.js" defer></script>
+</head>
+<body>
+    <header id="header-placeholder"></header>
+    <main>
+        <h2 class="title-products">NOS PRODUITS</h2>
+        <div id="filter">
+            <p>Filter les produits :</p>
+            <input type="button" value="A-Z" class="filter-buttons">
+            <input type="button" value="Prix" class="filter-buttons">
+        </div>
+        <div id="popup"></div>
+        <div id="card-container">
+            <div class="card">
+                <img src="" alt="Card Title 1" class="card-img">
+                <div class="card-content">
+                    <h2 class="card-title"></h2>
+                    <p class="card-description"></p>
+                    <p class="card-price"></p>
+                </div>
+                <button class="cart-btn" data-product-id="">Ajouter au panier</button>
+            </div>
+            <div class="card">
+                <img src="assets/pilules.png" alt="Card Title 2" class="card-img">
+                <div class="card-content">
+                    <h2 class="card-title"></h2>
+                    <p class="card-description"></p>
+                    <p class="card-price"></p>
+                </div>
+                <button class="cart-btn" data-product-id="">Ajouter au panier</button>
+            </div>
+            <div class="card">
+                <img src="assets/doliprane.png" alt="Card Title 3" class="card-img">
+                <div class="card-content">
+                    <h2 class="card-title">Card Title 3</h2>
+                    <p class="card-description">Description for card 3.</p>
+                    <p class="card-price">$30.00</p>
+                </div>
+                <button class="cart-btn" data-product-id="">Ajouter au panier</button>
+            </div>
+        </div>
+    </main>
+    <footer id="footer-placeholder"></footer>
+</body>
+</html>
