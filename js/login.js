@@ -3,23 +3,6 @@ const errorMsg = document.getElementById('error-msg');
 const passwordAlert = document.getElementById('password-alert');
 const userAlert = document.getElementById('user-alert');
 
-
-console.log('loaded');
-
-// Ajouter un cookie
-function setCookie(name, value, days) {
-    const date = new Date();
-    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-    const expires = "expires=" + date.toUTCString();
-    document.cookie = name + "=" + value + ";" + expires + ";path=/";
-}
-
-// Supprimer un cookie
-function deleteCookie(name) {
-    document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;";
-}
-
-// LOGIN
 loginForm.addEventListener('submit', async function(event) {
     event.preventDefault();
     passwordAlert.innerHTML = '';
@@ -55,5 +38,3 @@ loginForm.addEventListener('submit', async function(event) {
         errorMsg.innerHTML = 'Erreur lors de la connexion. Veuillez réessayer.';
     }
 });
-
-
