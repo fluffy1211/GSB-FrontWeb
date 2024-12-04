@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <script src="js/template.js" defer></script>
+        <script src="js/login.js" defer></script>
+        <script src="js/nav.js" defer></script>
+</head>
+<body>
+    <header id="header-placeholder"></header>
+    <main>
+        <!-- FORM DE LOGIN -->
+        <form id="login-form">
+            <label for="email">Email / Nom d'utilisateur</label>
+            <input type="eusername" id="email" name="email" required>
+            <p id="user-alert"></p>
+            <br><br>
+            <label for="password">Mot de passe</label>
+            <input type="password" id="password" name="password" required>
+            <p id="password-alert"></p>
+            <br><br>
+            <button type="submit">Se connecter</button>
+            <!-- <button id="logout-button">Logout</button> -->
+            <a id="noAccount" href="register.html"><p href="register.html">Vous n'avez pas encore de compte ?</p></a>
+            <p id="error-msg"></p>
+        </form>
+    </main>
+    <!-- FOOTER -->
+    <footer id="footer-placeholder"></footer>
+</body>
+</html>

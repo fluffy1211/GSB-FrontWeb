@@ -1,56 +1,46 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GSB</title>
-    <link rel="icon" type="image/x-icon" href="assets/gsb-logo.png">
+    <title>Document</title>
     <link rel="stylesheet" href="css/style.css">
-    <script src="script.js" defer></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="js/template.js" defer></script>
+    <script src="js/nav.js" defer></script>
+    <script src="js/slider.js" defer></script>
 </head>
+
 <body>
-
-    <!-- HEADER -->
-    <header class="header">
-        <nav class="navbar">
-            <img class="logo" src="assets/gsb-logo.png" alt="logo-gsb">
-            <div class="searchbar">
-                <input type="text" class="searchbar-input" placeholder="Rechercher un produit...">
-                <button class="searchbar-button">
-                    <img src="assets/search-button.png" alt="search">
-                </button>
-            </div>
-            <ul class="nav-menu">
-                <li class="nav-item">
-                    <a href="#" class="nav-link">Nos produits</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">Profil</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">Panier</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">Login</a>
-                </li>
-            </ul>
-            <div class="hamburger">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
-            </div>
-        </nav>
+    <header id="header-placeholder">
     </header>
-
     <!-- MAIN -->
     <main>
+        <div id="slider">
+            <h1 class="title-gsb">Bienvenue chez GSB !</h1>
+            <img src="assets/medicaments_1.jpg" alt="" id="slide">
+            <div id="previous">&#60;</div>
+            <div id="next">></div>
+        </div>
 
+        <section class="welcome-section">
+            <h2 id="welcome">
+                GSB vous propose des médicaments de haute qualité pour répondre à vos besoins en santé.<br>
+                Nous sommes fiers de vous offrir une large gamme de produits conçus pour améliorer votre qualité de
+                vie.
+                <br><br>
+                Notre mission est de vous accompagner vers une meilleure santé, avec simplicité et
+                efficacité, en vous fournissant des solutions adaptées et accessibles.
+                <br><br>
+                Découvrez nos produits, nos services, et notre engagement pour votre bien-être.
+            </h2>
+        </section>
     </main>
-
-    <!-- FOOTER -->
-    <footer>
-        
-    </footer>
-    
+    <footer id="footer-placeholder"></footer>
 </body>
+
 </html>

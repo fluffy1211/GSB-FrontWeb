@@ -1,11 +1,28 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,500;1,400&display=swap');
 
 /* GENERAL */
-
 :root {
     --primary-color: #5182bd;
     --secondary-color: #8cabd3;
     --tertiary-color: #1c9a39;
+}
+
+.disabled {
+    display: none;
+}
+
+.popup-active {
+    border: var(--tertiary-color) solid 2px;
+    color: var(--tertiary-color);
+    background-color: white;
+    z-index: 10;
+    padding: 2rem;
+    border-radius: 20px;
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 * {
@@ -17,10 +34,25 @@
 html {
     font-size: 70%;
     font-family: 'Roboto', sans-serif;
+    height: 100%;
+}
+
+body {
+    height: 100%;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+}
+
+.title {
+    text-align: center;
+    margin: 2rem 0;
+}
+
+main {
+    width: 100vw;
 }
 
 /* HEADER */
-
 li {
     list-style: none;
 }
@@ -39,10 +71,12 @@ a {
     justify-content: space-between;
     align-items: center;
     padding: 1rem 2rem;
+    border: 1px solid #E2E8F0;
 }
 
+/* Mobile-first hamburger menu */
 .hamburger {
-    display: block; /* Show on mobile */
+    display: block;
     cursor: pointer;
 }
 
@@ -55,10 +89,23 @@ a {
     background-color: #101010;
 }
 
+.hamburger.active .bar:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger.active .bar:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+}
+
+.hamburger.active .bar:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+}
+
+/* Mobile-first navigation menu */
 .nav-menu {
     position: fixed;
     left: -100%;
-    top: 5rem;
+    top: 6rem;
     flex-direction: column;
     background-color: #fff;
     width: 100%;
@@ -66,6 +113,7 @@ a {
     text-align: center;
     transition: 0.3s;
     box-shadow: 0 10px 27px rgba(0, 0, 0, 0.05);
+    z-index: 3;
 }
 
 .nav-menu.active {
@@ -86,27 +134,40 @@ a {
     color: var(--secondary-color);
 }
 
-.logo {
-    width: 15%;
+/* Mobile-first logo */
+
+a.logo-link {
+    display: inline-block; /* Ensure the anchor tag takes the same space as the image */
+    width: auto;
 }
+
+
+img.logo {
+    width: 70px;
+    height: auto;
+    transition: 0.5s;
+}
+
 
 .logo:hover {
     cursor: pointer;
+    opacity: 50%;
+    transition: 0.5s;
 }
 
-/* SEARCHBAR */
-
+/* Mobile-first searchbar (hidden by default) */
 .searchbar {
     display: none;
 }
 
 .searchbar-input {
     width: 40rem;
-    height: 3rem;
+    height: 4rem;
     outline: none;
     padding-left: 10px;
-    border: 1px solid black;
-    border-radius: 6px;
+    border: 1.5px solid black;
+    border-radius: 35px;
+    font-size: 1.4rem;
 }
 
 .searchbar-input:focus {
@@ -121,47 +182,444 @@ a {
     background-color: white;
     display: flex;
     align-items: center;
+    justify-content: center; 
+}
+
+i {
+    font-size: 2rem;
+}
+
+i:hover {
+    color: var(--primary-color);
+    transition: 0.5s;
+}
+
+/* FOOTER */
+footer {
+    background-color: #f8f9fa;
+    padding: 20px;
+    text-align: center;
+    font-size: 14px;
+    color: #6c757d;
+}
+
+footer p {
+    margin: 10px 0;
+}
+
+footer a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+footer a:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+/* SLIDER */
+#previous,
+#next {
+    font-size: 30px;
+}
+
+#slide {
+    width: 100%;
+    background-position-x: -1;
+}
+
+.fade {
+    animation: fadeEffect 1s;
+}
+
+@keyframes fadeEffect {
+    from {
+        opacity: 0.4;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.title-gsb {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 4rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    z-index: 1;
+}
+
+#slider {
+    position: relative;
+    width: 100%;
+    max-width: 1000px;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+}
+
+#slider img {
+    width: 100%;
+    height: auto;
+    filter: blur(5px);
+}
+
+/* SLIDER BUTTONS */
+#previous,
+#next {
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+    opacity: 0;
+    position: absolute;
+    font-size: 50px;
+    color: white;
+    background-color: var(--primary-color);
+    padding: 10px;
+    border-radius: 5%;
+    opacity: 50%;
+}
+
+#previous {
+    left: 10px;
+}
+
+#next {
+    right: 10px;
+}
+
+#slider:hover #previous,
+#slider:hover #next {
+    opacity: 1;
+}
+
+
+/* CARD STYLES */
+.title-products {
+    text-align: center;
+    margin: 4rem 0;
+    color: var(--primary-color);
+    font-size: 3.5rem;
+}
+
+#card-container {
+    display: flex;
+    flex-wrap: wrap;
     justify-content: center;
 }
 
-.searchbar-button img {
-    width: 21px;
-    height: 21px;
+.card {
+    flex: 1 1 calc(25% - 2rem);
+    max-width: calc(25% - 2rem);
+    margin: 1rem;
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: 0.4s;
 }
 
-/* RESPONSIVE DESKTOP */
+.card:hover {
+    border-color: var(--secondary-color);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
 
+.card-img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.card-content {
+    padding: 1rem;
+}
+
+.card-title {
+    font-size: 1.5rem;
+    margin: 0.5rem 0;
+}
+
+.card-description {
+    font-size: 1rem;
+    color: #555;
+}
+
+.card-price {
+    font-size: 1.2rem;
+    color: var(--primary-color);
+    font-weight: bold;
+}
+
+/* PROFILE */
+
+#profile-msg {
+    text-align: center;
+    font-size: 1.8rem;
+    margin: 2rem 0;
+}
+
+#logoutBtn {
+    display: flex;
+    justify-content: center;
+    margin: 2rem auto;
+    padding: 10px 20px;
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1.8rem;
+    cursor: pointer;
+    width: 20%;
+}
+
+
+/* Form styles for both login and register */
+#login-form,
+#register-form {
+    margin: 2rem auto;
+    width: 90%;
+    padding: 30px;
+}
+
+form {
+    align-items: center;
+    padding: 50px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+label {
+    margin-bottom: 15px;
+    font-weight: bold;
+    display: block;
+    font-size: 1.8rem;
+}
+
+/* Input styles for all form fields */
+input[type="email"],
+input[type="eusername"],
+input[type="password"],
+input[type="username"] {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 25px;
+    border: 2px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-size: 1.6rem;
+}
+
+/* Button styles */
+button[type="submit"] {
+    width: 100%;
+    padding: 15px;
+    background-color: #007BFF;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    font-size: 1.8rem;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+#password-alert {
+    color: red;
+    font-size: 1rem;
+}
+
+#user-alert {
+    color: red;
+    font-size: 1rem;
+}
+
+/* Account link styles */
+#noAccount,
+.account-link {
+    display: block;
+    text-align: center;
+    margin-top: 2rem;
+    font-size: 1.5rem;
+    text-decoration: none;
+    color: #333;
+}
+
+#noAccount:hover,
+.account-link:hover {
+    color: var(--primary-color);
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+a[type="register"] {
+    color: #007BFF;
+    text-decoration: none;
+}
+
+a[type="register"]:hover {
+    text-decoration: underline;
+}
+
+/* INDEX */
+
+#welcome {
+    text-align: center;
+    font-size: 2rem;
+    color: white;
+    padding: 5rem 2rem; /* Add padding around text */
+}
+
+.welcome-section {
+    height: 65vh;
+    width: 68.5%;
+    background-color: var(--secondary-color);
+    display: flex;
+    align-items: flex-start;  /* Align items to the start */
+    justify-content: center;
+    margin: 0 auto;
+    padding-top: 4rem; /* Add padding to push text down a bit */
+}
+
+/* CGV Page Styles */
+.cgv-main {
+    padding: 1rem;
+    max-width: 100%;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.cgv-section {
+    margin-bottom: 1.5rem;
+    text-align: center;
+    padding: 2rem;
+}
+
+.cgv-title {
+    font-size: 1.8rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.cgv-list {
+    list-style-type: disc;
+    padding-left: 1.5rem;
+    text-align: center;
+}
+
+.cgv-list li {
+    margin-bottom: 0.5rem;
+}
+
+/* CART */
+
+.cart-title {
+    text-align: center;
+    margin: 4rem 0;
+    color: var(--primary-color);
+    font-size: 2rem;
+}
+
+/* DESKTOP STYLES */
 @media only screen and (min-width: 768px) {
     .navbar {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
         padding: 2rem 3rem;
     }
 
     .hamburger {
-        display: none; /* Hide on desktop */
+        display: none;
     }
 
     .nav-menu {
         display: flex;
-        flex-direction: row; /* Ensure links are inline */
+        flex-direction: row;
         position: static;
         width: auto;
         box-shadow: none;
     }
 
     .nav-item {
-        margin: 0 1.5rem; /* Add spacing between links */
+        margin: 0 1.5rem;
     }
 
     .searchbar {
         display: flex;
         align-items: center;
-        margin-left: 6rem;
+        margin-left: 8rem;
     }
 
-    .logo {
-        width: 7%;
+    img.logo {
+        width: 90px;
+        height: auto;
+    }
+
+    .card {
+        flex: 1 1 calc(25% - 2rem);
+        max-width: 270px;
+        max-height: 420px;
+    }
+
+    #login-form,
+    #register-form {
+        width: 40%;
+        min-width: 400px;
+    }
+
+    .nav-icon {
+        display: block;
+        transition: 0.5s;
+    }
+
+    .nav-icon:hover {
+        cursor: pointer;
+        opacity: 50%;
+        transition: 0.5s;
+        
+    }
+
+    .nav-text {
+        display: none;
+    }
+
+    .cgv-main {
+        padding: 2rem;
+        max-width: 600px;
+    }
+
+    .cgv-title {
+        font-size: 2rem;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    form {
+        padding: 15px;
+    }
+
+    button {
+        font-size: 14px;
+    }
+}
+
+.nav-icon {
+    width: 30px;
+    height: 30px;
+}
+
+/* Mobile - hide icons, show text */
+@media only screen and (max-width: 767px) {
+    .nav-icon {
+        display: none;
+    }
+    .nav-text {
+        display: block;
     }
 }
