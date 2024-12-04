@@ -68,29 +68,6 @@ function getCookie(name) {
     if (parts.length === 2) return parts.pop().split(';').shift();
 }
 
-function parseJwt(token) {
-    try {
-        const base64Url = token.split('.')[1];
-        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-        const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
-            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-        }).join(''));
-        console.log('Full decoded payload:', JSON.parse(jsonPayload)); // Add this line
-        return JSON.parse(jsonPayload);
-    } catch (error) {
-        console.error('Error parsing JWT token:', error);
-        return null;
-    }
-}
-
-const jwtToken = getCookie('jwt');
-if (jwtToken) {
-    const decodedPayload = parseJwt(jwtToken);
-    console.log('Decoded JWT Payload:', decodedPayload);
-} else {
-    console.error('JWT token not found in cookies');
-}
-
 // Ajout au panier
 cartBtns.forEach(cartBtn => {
     cartBtn.addEventListener('click', async e => {
@@ -139,6 +116,3 @@ cartBtns.forEach(cartBtn => {
         }
     });
 });
-
-
-
