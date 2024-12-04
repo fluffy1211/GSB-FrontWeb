@@ -1,16 +1,10 @@
 const cartBtns = document.querySelectorAll('.cart-btn');
 const popup = document.getElementById('popup');
 
-// Afficher les produits dans les cards
 const cardsContainer = document.getElementById('card-container');
-<<<<<<< HEAD
 
-// Stocker les produits pour pouvoir les trier dynamiquement
 let productsData = [];
 
-// Récupérer les produits et les stocker dans productsData
-=======
->>>>>>> 52eb73f3366b8e20d1ff74ad012f396b87bfb94e
 async function getProducts() {
     try {
         const response = await fetch('http://localhost:3001/products');
@@ -18,28 +12,13 @@ async function getProducts() {
             throw new Error('Network response was not ok');
         }
         const products = await response.json();
-<<<<<<< HEAD
-        productsData = products; // Stocker les produits récupérés
-        renderProducts(productsData); // Afficher les produits
-=======
-        products.forEach((product, index) => {
-            const card = cardsContainer.children[index];
-            if (card) {
-                card.querySelector('.card-img').src = product.imagePath;
-                card.querySelector('.card-title').textContent = product.name;
-                card.querySelector('.card-description').textContent = product.description;
-                card.querySelector('.card-price').textContent = `${product.price}€`;
-                card.querySelector('.cart-btn').dataset.productId = product.id_product; // Ajouter l'ID du produit
-            }
-        });
->>>>>>> 52eb73f3366b8e20d1ff74ad012f396b87bfb94e
+        productsData = products;
+        renderProducts(productsData);
     } catch (error) {
         console.error('Error:', error);
     }
 }
 
-<<<<<<< HEAD
-// Afficher les produits dans les cartes
 function renderProducts(products) {
     const cardsContainer = document.getElementById('card-container');
     cardsContainer.innerHTML = '';
@@ -81,8 +60,6 @@ document.querySelectorAll('.filter-buttons').forEach(button => {
 });
 
 // Initialiser les produits
-=======
->>>>>>> 52eb73f3366b8e20d1ff74ad012f396b87bfb94e
 getProducts();
 
 function getCookie(name) {
