@@ -3,9 +3,6 @@ const errorMsg = document.getElementById('error-msg');
 const passwordAlert = document.getElementById('password-alert');
 const userAlert = document.getElementById('user-alert');
 
-
-console.log('loaded');
-
 // Ajouter un cookie
 function setCookie(name, value, days) {
     const date = new Date();
@@ -24,6 +21,7 @@ loginForm.addEventListener('submit', async function(event) {
     event.preventDefault();
     passwordAlert.innerHTML = '';
     userAlert.innerHTML = '';
+    errorMsg.innerHTML = '';
 
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
@@ -38,16 +36,20 @@ loginForm.addEventListener('submit', async function(event) {
         });
 
         const result = await response.json();
+        
         if (response.ok) {
-            setCookie('jwt', result.token, 1); // Store the token in a cookie for 1 day
-            document.location.href = '/index.html';
+            setCookie('jwt', result.token, 1);
+            document.location.href = '/';
         } else {
-            if (result === 'Cet utilisateur n\'existe pas') {
-                userAlert.innerHTML = 'Utilisateur non trouvé. Veuillez vérifier votre email ou mot de passe.';
-            } else if (result === 'Mot de passe incorrect') {
-                passwordAlert.innerHTML = 'Mot de passe incorrect. Veuillez réessayer.';
-            } else {
-                errorMsg.innerHTML = 'Erreur lors de la connexion. Veuillez réessayer.';
+            switch(result) {
+                case 'Utilisateur non trouvé':
+                    userAlert.innerHTML = 'Utilisateur non trouvé. Veuillez vérifier vos identifiants.';
+                    break;
+                case 'Mot de passe incorrect':
+                    passwordAlert.innerHTML = 'Mot de passe incorrect. Veuillez réessayer.';
+                    break;
+                default:
+                    errorMsg.innerHTML = 'Erreur lors de la connexion. Veuillez réessayer.';
             }
         }
     } catch (error) {
