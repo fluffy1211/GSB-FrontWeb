@@ -3,6 +3,7 @@ const errorMsg = document.getElementById('error-msg');
 const passwordAlert = document.getElementById('password-alert');
 const userAlert = document.getElementById('user-alert');
 
+
 // Ajouter un cookie
 function setCookie(name, value, days) {
     const date = new Date();
@@ -38,6 +39,7 @@ loginForm.addEventListener('submit', async function(event) {
         const result = await response.json();
         
         if (response.ok) {
+
             setCookie('jwt', result.token, 1);
             document.location.href = '/';
         } else {
@@ -57,5 +59,3 @@ loginForm.addEventListener('submit', async function(event) {
         errorMsg.innerHTML = 'Erreur lors de la connexion. Veuillez réessayer.';
     }
 });
-
-

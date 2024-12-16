@@ -75,18 +75,12 @@ exports.login = async (req, res) => {
             return res.status(400).json('Mot de passe incorrect');
         }
 
-        // Create token with user info
-        const token = jwt.sign(
-            { 
-                id: user.client_id, 
-                email: user.email, 
-                name: user.name 
-            }, 
-            process.env.API_KEY, 
-            { expiresIn: '1h' }
-        );
 
-        res.status(200).json({ token });
+        // On crée un token qui dure 1h
+        const token = jwt.sign({ id: user.client_id, email: user.email, name: user.name, role: user.role }, process.env.API_KEY, { expiresIn: '1h' });
+        console.log('Generated token:', token); // Log the generated token
+        res.status(200).json({ token: token });
+
     } catch (err) {
         console.error(err);
         res.status(500).json('Erreur lors de la connexion');

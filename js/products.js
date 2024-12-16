@@ -1,6 +1,6 @@
 const cartBtns = document.querySelectorAll('.cart-btn');
 const popup = document.getElementById('popup');
-
+ 
 // Afficher les produits dans les cards
 const cardsContainer = document.getElementById('card-container');
 async function getProducts() {
@@ -24,9 +24,9 @@ async function getProducts() {
         console.error('Error:', error);
     }
 }
-
+ 
 getProducts();
-
+ 
 function getCookie(name) {
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${name}=`);
@@ -72,6 +72,3 @@ cartBtns.forEach(cartBtn => {
         }
     });
 });
-
-
-
