@@ -24,8 +24,9 @@ const checkElements = setInterval(() => {
     const loginIcon = document.getElementById('login');
     const panierIcon = document.getElementById('panier');
     const profilIcon = document.getElementById('profil');
+    const adminLink = document.getElementById('admin-link');
 
-    if (loginIcon && panierIcon && profilIcon) {
+    if (loginIcon && panierIcon && profilIcon && adminLink) {
         clearInterval(checkElements);
 
         const token = getCookie('jwt');
@@ -36,11 +37,13 @@ const checkElements = setInterval(() => {
                 loginIcon.style.display = 'none';
                 panierIcon.style.display = 'block';
                 profilIcon.style.display = 'block';
+                adminLink.style.display = user.role === 'admin' ? 'block' : 'none';
             }
         } else {
             loginIcon.style.display = 'block';
             panierIcon.style.display = 'none';
             profilIcon.style.display = 'none';
+            adminLink.style.display = 'none';
         }
     }
 }, 100);

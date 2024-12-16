@@ -10,6 +10,6 @@ if (logoutButton) {
         deleteCookie('jwt');
         console.log('Logged out');
         // Ajouter la redirection vers une page de logout par exemple
-        document.location.href = '/index.html';
+        document.location.href = 'index.html';
     });
 }

@@ -1,6 +1,8 @@
 const cartBtns = document.querySelectorAll('.cart-btn');
 const popup = document.getElementById('popup');
 
+ 
+// Afficher les produits dans les cards
 const cardsContainer = document.getElementById('card-container');
 
 let productsData = [];
@@ -61,7 +63,7 @@ document.querySelectorAll('.filter-buttons').forEach(button => {
 
 // Initialiser les produits
 getProducts();
-
+ 
 function getCookie(name) {
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${name}=`);
@@ -83,20 +85,11 @@ cartBtns.forEach(cartBtn => {
         try {
             const jwtToken = getCookie('jwt');
             console.log('Token:', jwtToken);
-            const decodedToken = parseJwt(jwtToken);
-            const clientId = decodedToken ? decodedToken.id : null;
-            console.log('Client ID:', clientId); // Log the client ID
-
-            if (!clientId) {
-                console.error('Client ID is missing in token!');
-                return;
-            }
-
             const response = await fetch('http://localhost:3001/cart/add', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${jwtToken}` // Utiliser le token JWT
+                    'Authorization': `Bearer ${jwtToken}`
                 },
                 body: JSON.stringify({ id_product: productId, quantity: quantity })
             });
