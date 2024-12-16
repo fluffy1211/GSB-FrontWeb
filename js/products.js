@@ -32,7 +32,7 @@ function getCookie(name) {
     const parts = value.split(`; ${name}=`);
     if (parts.length === 2) return parts.pop().split(';').shift();
 }
- 
+
 // Ajout au panier
 cartBtns.forEach(cartBtn => {
     cartBtn.addEventListener('click', async e => {

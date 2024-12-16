@@ -33,7 +33,7 @@ exports.register = async (req, res) => {
         const insertUserQuery = 'INSERT INTO clients (email, password, name) VALUES (?, ?, ?)';
         const insertUserValues = [email, hashedPassword, name];
         const result = await conn.query(insertUserQuery, insertUserValues);
-        const userId = result.insertId; // Get the inserted user's ID
+        const userId = result.insertId.toString(); // Convert BigInt to string
         console.log('New user ID:', userId); // Log the new user ID
         conn.release();
 
@@ -52,31 +52,38 @@ exports.register = async (req, res) => {
 // LOGIQUE DE LOGIN
 exports.login = async (req, res) => {
     try {
-        const { email, password, name } = req.body;
+        const { email, password } = req.body;
         const conn = await database.getConnection();
 
-        // On cherche le client dans la base de données
-        const result = await conn.query('SELECT * FROM clients WHERE email = ? OR name = ?', [email, name]);
+        // Modified query to properly handle both email and username cases
+        const result = await conn.query(
+            'SELECT * FROM clients WHERE email = ? OR name = ?', 
+            [email, email]
+        );
+        
         conn.release();
+        
         if (result.length === 0) {
-            return res.status(400).json('Cet utilisateur n\'existe pas');
+            return res.status(400).json('Utilisateur non trouvé');
         }
-        const user = result[0];
-        console.log('User found:', user); // Log the found user
 
-        // On compare les mots de passe hashés pour vérifier si c'est le bon
+        const user = result[0];
+        
+        // Compare password
         const passwordMatch = await bcrypt.compare(password, user.password);
         if (!passwordMatch) {
             return res.status(400).json('Mot de passe incorrect');
         }
 
+
         // On crée un token qui dure 1h
         const token = jwt.sign({ id: user.client_id, email: user.email, name: user.name, role: user.role }, process.env.API_KEY, { expiresIn: '1h' });
         console.log('Generated token:', token); // Log the generated token
         res.status(200).json({ token: token });
+
     } catch (err) {
         console.error(err);
-        res.status(500).send('Erreur lors de la connexion');
+        res.status(500).json('Erreur lors de la connexion');
     }
 }
 
