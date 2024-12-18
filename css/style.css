@@ -654,12 +654,12 @@ a[type="register"]:hover {
     display: flex;
     justify-content: center;
     margin: 2rem auto;
-    padding: 10px 20px;
+    padding: 15px 25px;
     background-color: var(--primary-color);
     color: white;
     border: none;
     border-radius: 6px;
-    font-size: 1rem;
+    font-size: 1.5rem;
     cursor: pointer;
     transition: all 0.3s ease;
 }
@@ -668,6 +668,12 @@ a[type="register"]:hover {
     background-color: var(--secondary-color);
     transform: translateY(-2px);
     transition: all 0.3s ease;
+}
+
+.cart-empty {
+    text-align: center;
+    font-size: 2rem;
+    margin: 2rem 0;
 }
 
 /*PAGE ADMIN*/

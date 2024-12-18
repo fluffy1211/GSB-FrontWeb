@@ -53,7 +53,7 @@ const getCart = async () => {
             return cart_container.innerHTML = '<p>Erreur lors de la récupération du panier</p>';
         }
         if (!data.items || !data.items.length) {
-            return cart_container.innerHTML = '<p>Votre panier est vide</p>';
+            return cart_container.innerHTML = '<p class="cart-empty">Votre panier est vide</p>';
         }
         cart_container.innerHTML = '';
         data.items.forEach(item => {
