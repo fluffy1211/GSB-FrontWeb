@@ -17,14 +17,14 @@ exports.createOrder = async (req, res) => {
 
         const conn = await database.getConnection();
 
-        // Get client's cart
+        // Récupérer le cart du client
         const [cart] = await conn.query('SELECT * FROM carts WHERE client_id = ?', [client_id]);
         if (!cart || cart.length === 0) {
             conn.release();
             return res.status(400).json({ error: 'No cart found' });
         }
 
-        // Get cart content
+        // Récupérer le contenu du cart
         const cartContent = JSON.parse(cart.cart_content);
         if (!cartContent.length) {
             conn.release();
@@ -34,7 +34,7 @@ exports.createOrder = async (req, res) => {
         try {
             await conn.beginTransaction();
 
-            // Create order without status field
+            // Créer l'order
             const result = await conn.query(
                 'INSERT INTO orders (cart_id, client_id) VALUES (?, ?)',
                 [cart.cart_id, client_id]
@@ -42,7 +42,7 @@ exports.createOrder = async (req, res) => {
             
             const orderId = result.insertId.toString(); // Convert BigInt to String
 
-            // Update product quantities
+            // Update la quantité des produits
             for (const item of cartContent) {
                 const [product] = await conn.query(
                     'SELECT quantity FROM products WHERE id_product = ?',
@@ -64,7 +64,7 @@ exports.createOrder = async (req, res) => {
                 );
             }
 
-            // Clear cart
+            // Clear le cart
             await conn.query(
                 'UPDATE carts SET cart_content = "[]" WHERE client_id = ?',
                 [client_id]
