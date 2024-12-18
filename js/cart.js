@@ -1,6 +1,6 @@
 const cart_container = document.querySelector('.cart-container');
 
-// Function to get a cookie by name
+// Récupérer un cookie par son nom
 function getCookie(name) {
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${name}=`);
@@ -9,7 +9,7 @@ function getCookie(name) {
 
 
 
-// Function to update item quantity in cart
+// Function pour update la quantité de l'item dans le cart
 async function updateCart(id_product, quantity) {
     const jwtToken = getCookie('jwt');
     try {
@@ -24,7 +24,7 @@ async function updateCart(id_product, quantity) {
         const data = await response.json();
         if (response.ok) {
             console.log('Cart updated:', data);
-            getCart(); // Refresh the cart
+            getCart(); // Refresh le cart
         } else {
             console.error('Error updating cart:', data);
         }
@@ -38,7 +38,7 @@ async function decrementQuantity(id_product) {
     await updateCart(id_product, 1);
 }
 
-// Get the JWT token from the cookie
+// Récupérer le JWT token dans le cookie
 const getCart = async () => {
     const jwtToken = getCookie('jwt');
     console.log('Token:', jwtToken);
