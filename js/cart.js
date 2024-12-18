@@ -1,4 +1,5 @@
 const cart_container = document.querySelector('.cart-container');
+const buy_button = document.getElementsByClassName('buy-btn')[0];
 
 // Récupérer un cookie par son nom
 function getCookie(name) {
@@ -6,8 +7,6 @@ function getCookie(name) {
     const parts = value.split(`; ${name}=`);
     if (parts.length === 2) return parts.pop().split(';').shift();
 }
-
-
 
 // Function pour update la quantité de l'item dans le cart
 async function updateCart(id_product, quantity) {
@@ -38,10 +37,8 @@ async function decrementQuantity(id_product) {
     await updateCart(id_product, 1);
 }
 
-// Récupérer le JWT token dans le cookie
 const getCart = async () => {
     const jwtToken = getCookie('jwt');
-    console.log('Token:', jwtToken);
     try {
         const response = await fetch('http://localhost:3001/cart', {
             method: 'GET',
@@ -51,7 +48,6 @@ const getCart = async () => {
             }
         });
         const data = await response.json();
-        console.log(data);
         if (data.error) {
             console.log(data.error);
             return cart_container.innerHTML = '<p>Erreur lors de la récupération du panier</p>';
@@ -83,5 +79,29 @@ const getCart = async () => {
         cart_container.innerHTML = '<p>Erreur lors de la récupération du panier</p>';
     }
 }
+
+buy_button.addEventListener('click', async () => {
+    const jwtToken = getCookie('jwt');
+    try {
+        const response = await fetch('http://localhost:3001/order/create', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwtToken}`
+            }
+        });
+        
+        const data = await response.json();
+        
+        if (!response.ok) {
+            throw new Error(data.error || 'Error creating order');
+        }
+        console.log("Commande créée avec succès")
+        getCart(); // Refresh cart
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Votre panier est vide');
+    }
+});
 
 getCart();

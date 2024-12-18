@@ -334,16 +334,10 @@ footer a:hover {
     padding: 1rem;
 }
 
-.cart-desc
-
-.cart-quantity
-
-.cart-price
-
 /* CARD STYLES */
 .title-products {
     text-align: center;
-    margin: 4rem 0;
+    margin: 2rem 0;
     color: var(--primary-color);
     font-size: 3.5rem;
 }
@@ -355,8 +349,8 @@ footer a:hover {
 }
 
 .card {
-    flex: 1 1 calc(25% - 2rem);
-    max-width: calc(25% - 2rem);
+    flex: 1 1 calc(50%);
+    max-width: calc(50%);
     margin: 1rem;
     box-sizing: border-box;
     border: 1px solid #ddd;
@@ -397,6 +391,38 @@ footer a:hover {
     font-weight: bold;
 }
 
+#filter {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 2rem 0;
+    gap: 1rem;
+}
+
+.filter-title {
+    font-size: 2rem;
+}
+
+.filter-buttons {
+    padding: 1rem 2rem;
+    font-size: 1.6rem;
+    border: 2px solid var(--primary-color);
+    border-radius: 6px;
+    background-color: white;
+    color: var(--primary-color);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.filter-buttons:hover {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.filter-buttons.active {
+    background-color: var(--primary-color);
+    color: white;
+}
 /* PROFILE */
 
 #profile-msg {
@@ -565,10 +591,66 @@ a[type="register"]:hover {
 
 .cart-title {
     text-align: center;
-    margin: 4rem 0;
+    margin: 2rem 0;
     color: var(--primary-color);
-    font-size: 2rem;
+    font-size: 3.5rem;
 }
+
+.cart-btn {
+    width: 100%;
+    padding: 1rem;
+    margin-top: 1rem;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.cart-btn:hover {
+    background-color: var(--secondary-color);
+    transform: translateY(-2px);
+}
+
+.quantity-select {
+    width: 100%;
+    padding: 1rem;
+    margin-top: 1rem;
+    border: 2px solid var(--primary-color);
+    border-radius: 6px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    background-color: white;
+    color: var(--primary-color);
+}
+
+.quantity-select:focus {
+    outline: none;
+    border-color: var(--secondary-color);
+}
+
+.buy-btn {
+    display: flex;
+    justify-content: center;
+    margin: 2rem auto;
+    padding: 10px 20px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.buy-btn:hover {
+    background-color: var(--secondary-color);
+    transform: translateY(-2px);
+    transition: all 0.3s ease;
+}
+
 /*PAGE ADMIN*/
 .inventory-table {
     width: 100%;
