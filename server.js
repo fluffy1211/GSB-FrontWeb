@@ -10,12 +10,14 @@ app.use(express.urlencoded({ extended: true }));
 const userRoute = require('./routes/userRoute.js');
 const productsRoute = require('./routes/productsRoute.js');
 const cartRoute = require('./routes/cartRoute.js');
-const adminRoute = require('./routes/adminRoute.js'); 
+const adminRoute = require('./routes/adminRoute.js');
+const orderRoute = require('./routes/orderRoute.js');
 
 app.use('/products', productsRoute);
 app.use('/user', userRoute);
 app.use('/cart', cartRoute);
 app.use('/admin', adminRoute);
+app.use('/order', orderRoute);
 
 app.listen(3001, () => {
     console.log(`Server started on http://localhost:3001`);

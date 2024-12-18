@@ -1,11 +1,11 @@
-// Function to get a cookie by name
+// Récupérer le cookie par son nom
 function getCookie(name) {
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${name}=`);
     if (parts.length === 2) return parts.pop().split(';').shift();
 }
 
-// Function to decode JWT token
+// Décoder le token JWT
 function parseJwt(token) {
     try {
         const base64Url = token.split('.')[1];
@@ -20,6 +20,28 @@ function parseJwt(token) {
     }
 }
 
+// Checker si le token est expiré
+function isTokenExpired(token) {
+    if (!token) return true;
+    
+    try {
+        const decoded = parseJwt(token);
+        if (!decoded.exp) return true;
+        
+        // exp is in seconds, Date.now() is in milliseconds
+        return decoded.exp * 1000 < Date.now();
+    } catch (error) {
+        console.error('Error checking token expiration:', error);
+        return true;
+    }
+}
+
+// Logout
+function handleLogout() {
+    document.cookie = "jwt=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;";
+    window.location.href = '/login.html';
+}
+
 const checkElements = setInterval(() => {
     const loginIcon = document.getElementById('login');
     const panierIcon = document.getElementById('panier');
@@ -32,6 +54,12 @@ const checkElements = setInterval(() => {
         const token = getCookie('jwt');
 
         if (token) {
+            // Check si le token est expiré
+            if (isTokenExpired(token)) {
+                handleLogout();
+                return;
+            }
+
             const user = parseJwt(token);
             if (user) {
                 loginIcon.style.display = 'none';
@@ -47,3 +75,11 @@ const checkElements = setInterval(() => {
         }
     }
 }, 100);
+
+// Ajouter un check régulier du token
+setInterval(() => {
+    const token = getCookie('jwt');
+    if (token && isTokenExpired(token)) {
+        handleLogout();
+    }
+}, 60000); // Check chaque minute
