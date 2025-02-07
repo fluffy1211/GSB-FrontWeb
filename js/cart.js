@@ -72,6 +72,11 @@ const getCart = async () => {
             const button = product.querySelector('.cart-btn');
             button.addEventListener('click', () => decrementQuantity(item.id_product));
             cart_container.appendChild(product);
+            const price = item.price * item.quantity;
+            const total = document.createElement('div');
+            total.classList.add('total');
+            total.innerHTML = `<p>Total: ${price} €</p>`;
+            cart_container.appendChild(total);            
         });
     }
     catch (error) {

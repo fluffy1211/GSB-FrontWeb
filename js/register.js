@@ -16,8 +16,8 @@ registerForm.addEventListener('submit', async function (event) {
     const password = document.getElementById('password').value;
 
     // Regex patterns
-    const namePattern = /^[a-zA-Z0-9]{3,16}$/; // Only letters and digits, between 3 and 16 characters
-    const passwordPattern = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?])[A-Za-z\d!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]{6,}$/;
+    const namePattern = /^[a-zA-Z]{3,16}$/; // Only letters, between 3 and 16 characters
+    const passwordPattern = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>/?])[^\s]{6,}$/;
 
     // Validate fields
     let isValid = true;
