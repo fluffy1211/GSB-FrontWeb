@@ -4,6 +4,14 @@ const database = require('../database/db.js');
 
 exports.createAppointment = async (req, res) => {
     try {
+        // Get user data from middleware
+        const clientId = req.user.id;
+        const clientName = req.user.name;
+
+        if (!clientId) {
+            return res.status(400).json({ error: 'No client_id found in token' });
+        }
+
         const conn = await database.getConnection();
         const { praticienId, date, timeSlot, symptoms } = req.body;
         
@@ -13,13 +21,15 @@ exports.createAppointment = async (req, res) => {
                 error: 'Missing required fields. Please provide praticienId, date, timeSlot, and symptoms'
             });
         }
-        
-        const clientId = req.user.id;
-        const clientName = req.user.name;
+
+        // Convert timeSlot from "HHhMM" to "HH:MM:SS"
+        const formattedTimeSlot = timeSlot
+            .replace('h', ':')
+            .concat(':00');
 
         const result = await conn.query(
             'INSERT INTO appointment (client_id, client_name, appointment_date, appointment_time, symptoms, praticien_id) VALUES (?, ?, ?, ?, ?, ?)', 
-            [clientId, clientName, date, timeSlot, JSON.stringify(symptoms), praticienId]
+            [clientId, clientName, date, formattedTimeSlot, JSON.stringify(symptoms), praticienId]
         );
         
         conn.release();

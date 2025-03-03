@@ -36,7 +36,7 @@ exports.addToCart = async (req, res) => {
             let [cart] = await database.query('SELECT * FROM carts WHERE client_id = ?', [client_id]);
 
             if (!cart) {
-                // En créer un nouveau si il n'y en a pas
+                // En créer un nouveau si il n'y en a pa
                 const newCartContent = JSON.stringify([{ id_product, quantity, price: productPrice }]);
                 await database.query('INSERT INTO carts (client_id, cart_content) VALUES (?, ?)', [client_id, newCartContent]);
             } else {
