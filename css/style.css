@@ -203,7 +203,7 @@ i:hover {
 /* FOOTER */
 footer {
     background-color: #f8f9fa;
-    padding: 20px;
+    padding: 12px;
     text-align: center;
     font-size: 14px;
     color: #6c757d;
@@ -254,9 +254,10 @@ footer a:hover {
     left: 50%;
     transform: translate(-50%, -50%);
     color: white;
-    font-size: 3.62rem;
+    font-size: 2.5rem;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     z-index: 1;
+    text-align: center;
 }
 
 #slider {
@@ -646,7 +647,7 @@ footer a:hover {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 2rem 0;
+    margin: 1rem 0;
     gap: 1rem;
 }
 
@@ -1469,6 +1470,7 @@ a[type="register"]:hover {
     .title-gsb {
         font-size: 6rem;
         width: 60rem;
+        text-align: center;
     }
 
     /* Increase image height slightly on larger screens */
@@ -1478,7 +1480,7 @@ a[type="register"]:hover {
 
     .title-products {
         font-size: 4rem;
-        margin: 4rem 0;
+        margin: 2rem 0;
     }
 
     /* Testimonials responsive */
