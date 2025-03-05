@@ -458,7 +458,7 @@ footer a:hover {
 #notification {
     position: fixed;
     top: 20px;
-    right: 20px;
+    left: 20px; /* Position on the left side */
     z-index: 1000;
     background-color: var(--primary-color);
     color: white;
@@ -468,7 +468,7 @@ footer a:hover {
     display: flex;
     align-items: center;
     gap: 1rem;
-    transform: translateX(150%);
+    transform: translateX(-150%); /* Start off-screen from the left */
     transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     max-width: 90%;
     width: 350px;
@@ -495,21 +495,6 @@ footer a:hover {
 
 .notification-message {
     font-size: 1.3rem;
-}
-
-.notification-close {
-    background: none;
-    border: none;
-    color: white;
-    font-size: 1.8rem;
-    cursor: pointer;
-    padding: 0.3rem;
-    opacity: 0.7;
-    transition: opacity 0.2s;
-}
-
-.notification-close:hover {
-    opacity: 1;
 }
 
 /* Fix for cart button visibility issues */

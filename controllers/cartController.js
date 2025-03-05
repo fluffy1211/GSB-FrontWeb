@@ -3,176 +3,284 @@ const database = require('../database/db.js');
 
 // AJOUTER AU PANIER
 exports.addToCart = async (req, res) => {
-    const authHeader = req.headers.authorization;
-    if (!authHeader) {
-        return res.status(401).json({ error: 'Aucun token fourni' });
-    }
-    const token = authHeader.split(' ')[1];
-    jwt.verify(token, process.env.API_KEY, async (err, decoded) => {
-        if (err) {
+    try {
+        const authHeader = req.headers.authorization;
+        if (!authHeader) {
+            return res.status(401).json({ error: 'Aucun token fourni' });
+        }
+        
+        const token = authHeader.split(' ')[1];
+        let decoded;
+        try {
+            decoded = jwt.verify(token, process.env.API_KEY);
+        } catch (err) {
+            console.error('Token verification error:', err);
             return res.status(401).json({ error: 'Token invalide' });
         }
-        const client_id = decoded.id; // Assurez-vous que le payload du JWT contient l'ID de l'utilisateur
+        
+        const client_id = decoded.id;
         if (!client_id) {
-            return res.status(400).json({ error: 'Client ID is missing in token' });
+            return res.status(400).json({ error: 'ID client manquant dans le token' });
         }
+        
         const { id_product, quantity } = req.body;
-
         if (!id_product || !quantity) {
-            return res.status(400).json({ error: 'champs manquants' });
+            console.error('Missing fields:', req.body);
+            return res.status(400).json({ error: 'Champs manquants (id_product ou quantity)' });
         }
-
-        try {
-            // Récupérer le prix du produit depuis la bdd
-            const [product] = await database.query('SELECT price FROM products WHERE id_product = ?', [id_product]);
-
-            if (!product) {
-                return res.status(404).json({ error: 'Produit non trouvé' });
-            }
-
-            const productPrice = product.price;
-
-            // Récupérer le cart du client
-            let [cart] = await database.query('SELECT * FROM carts WHERE client_id = ?', [client_id]);
-
-            if (!cart) {
-                // En créer un nouveau si il n'y en a pa
-                const newCartContent = JSON.stringify([{ id_product, quantity, price: productPrice }]);
-                await database.query('INSERT INTO carts (client_id, cart_content) VALUES (?, ?)', [client_id, newCartContent]);
-            } else {
-                // Récupérer le contenu du cart
-                let cartContent = JSON.parse(cart.cart_content);
-
-                // Check si le produit est déjà dans le cart
-                const productIndex = cartContent.findIndex(item => item.id_product === id_product);
-                if (productIndex > -1) {
-                    // Update la quantité du produit si il est dans le cart
-                    cartContent[productIndex].quantity += quantity;
-                } else {
-                    // Ajouter le nouveau produit au cart
-                    cartContent.push({ id_product, quantity, price: productPrice });
+        
+        // Convert to proper types to ensure comparison works
+        const productId = parseInt(id_product);
+        const productQty = parseInt(quantity);
+        
+        // Récupérer le prix du produit
+        const products = await database.query('SELECT price FROM products WHERE id_product = ?', [productId]);
+        if (!products || products.length === 0) {
+            return res.status(404).json({ error: 'Produit non trouvé' });
+        }
+        
+        const productPrice = products[0].price;
+        console.log(`Adding product ${productId} with price ${productPrice} and quantity ${productQty}`);
+        
+        // Récupérer le panier
+        const carts = await database.query('SELECT * FROM carts WHERE client_id = ?', [client_id]);
+        
+        // Create new cart if none exists
+        if (!carts || carts.length === 0) {
+            const newCartContent = JSON.stringify([{ 
+                id_product: productId, 
+                quantity: productQty, 
+                price: productPrice 
+            }]);
+            
+            await database.query('INSERT INTO carts (client_id, cart_content) VALUES (?, ?)', 
+                [client_id, newCartContent]);
+                
+            return res.status(200).json({ message: 'Produit ajouté au nouveau panier' });
+        }
+        
+        // Handle existing cart
+        const cart = carts[0];
+        
+        // Parse cart content
+        let cartContent = [];
+        if (cart.cart_content) {
+            // Check if cart.cart_content is already an object or a string
+            if (typeof cart.cart_content === 'string') {
+                try {
+                    cartContent = JSON.parse(cart.cart_content);
+                } catch (err) {
+                    console.error('Error parsing cart content:', err);
+                    // Continue with empty array
                 }
-
-
-                // Update le cart dans la bdd
-                await database.query('UPDATE carts SET cart_content = ? WHERE client_id = ?', [
-                    JSON.stringify(cartContent),
-                    client_id
-                ]);
+            } else {
+                // Already an object
+                cartContent = cart.cart_content;
             }
-
-            res.status(200).json({ message: 'produit ajouté' });
-        } catch (error) {
-            console.error("Erreur dans l'ajout au cart", error);
-            res.status(500).json({ error: 'Erreur interne' });
+            
+            // Ensure it's an array
+            if (!Array.isArray(cartContent)) {
+                cartContent = [];
+            }
         }
-    });
+        
+        // Find if product already exists in cart
+        const productIndex = cartContent.findIndex(item => 
+            parseInt(item.id_product) === productId
+        );
+        
+        if (productIndex > -1) {
+            // Update quantity if product exists
+            cartContent[productIndex].quantity += productQty;
+        } else {
+            // Add new product
+            cartContent.push({ 
+                id_product: productId, 
+                quantity: productQty, 
+                price: productPrice 
+            });
+        }
+        
+        // Save updated cart
+        const cartJson = JSON.stringify(cartContent);
+        console.log('Updated cart content:', cartJson);
+        
+        await database.query('UPDATE carts SET cart_content = ? WHERE client_id = ?', 
+            [cartJson, client_id]);
+        
+        return res.status(200).json({ message: 'Produit ajouté au panier' });
+        
+    } catch (error) {
+        console.error("Error adding to cart:", error);
+        return res.status(500).json({ error: 'Erreur serveur interne' });
+    }
 };
 
 // METTRE À JOUR OU SUPPRIMER UN PRODUIT DU PANIER
+// METTRE À JOUR OU SUPPRIMER UN PRODUIT DU PANIER
 exports.updateCart = async (req, res) => {
-    const authHeader = req.headers.authorization;
-    if (!authHeader) {
-        return res.status(401).json({ error: 'Aucun token fourni' });
-    }
-    const token = authHeader.split(' ')[1];
-    jwt.verify(token, process.env.API_KEY, async (err, decoded) => {
-        if (err) {
+    try {
+        const authHeader = req.headers.authorization;
+        if (!authHeader) {
+            return res.status(401).json({ error: 'Aucun token fourni' });
+        }
+        
+        const token = authHeader.split(' ')[1];
+        let decoded;
+        try {
+            decoded = jwt.verify(token, process.env.API_KEY);
+        } catch (err) {
             return res.status(401).json({ error: 'Token invalide' });
         }
+        
         const client_id = decoded.id;
         const { id_product, quantity } = req.body;
-
+        
         if (!id_product) {
-            return res.status(400).json({ error: 'No id_product' });
+            return res.status(400).json({ error: 'ID produit manquant' });
         }
-
-        try {
-            // Fetch the current cart for the client
-            const [cart] = await database.query('SELECT * FROM carts WHERE client_id = ?', [client_id]);
-
-            if (!cart) {
-                return res.status(404).json({ error: 'Cart not found' });
-            }
-
-            // Parse the current cart content
-            let cartContent = JSON.parse(cart.cart_content);
-            console.log('Cart Content:', cartContent);
-            console.log('id_product:', id_product);
-
-            // Check if the product is in the cart
-            const productIndex = cartContent.findIndex(item => {
-                console.log('Comparing:', item.id_product, id_product);
-                return item.id_product === id_product;
-            });
-            if (productIndex === -1) {
-                return res.status(404).json({ error: 'Product not found in cart' });
-            }
-
-            // Decrement the quantity of the product
-            cartContent[productIndex].quantity -= quantity;
-
-            // Remove the product if the quantity is 0 or less
-            if (cartContent[productIndex].quantity <= 0) {
-                cartContent.splice(productIndex, 1);
-            }
-
-            // Update the cart in the database
-            await database.query('UPDATE carts SET cart_content = ? WHERE client_id = ?', [
-                JSON.stringify(cartContent),
-                client_id
-            ]);
-
-            res.status(200).json({ message: 'Cart updated' });
-        } catch (error) {
-            console.error('Error updating cart:', error);
-            res.status(500).send('Internal server error');
+        
+        // Fetch the current cart
+        const results = await database.query('SELECT * FROM carts WHERE client_id = ?', [client_id]);
+        
+        if (!results || results.length === 0) {
+            return res.status(404).json({ error: 'Panier non trouvé' });
         }
-    });
-};
-
-// AFFICHER LE PANIER
-exports.getCart = async (req, res) => {
-    const authHeader = req.headers.authorization;
-    if (!authHeader) {
-        return res.status(401).json({ error: 'Aucun token fourni' });
+        
+        const cart = results[0];
+        
+        // Handle the cart content safely
+        let cartContent = [];
+        if (cart.cart_content) {
+            if (typeof cart.cart_content === 'string') {
+                try {
+                    cartContent = JSON.parse(cart.cart_content);
+                } catch (err) {
+                    console.error('Error parsing cart JSON:', err);
+                }
+            } else {
+                cartContent = cart.cart_content;
+            }
+        }
+        
+        if (!Array.isArray(cartContent)) {
+            cartContent = [];
+        }
+        
+        // Find the product using string comparison to be safe
+        const productIndex = cartContent.findIndex(item => 
+            String(item.id_product) === String(id_product)
+        );
+        
+        if (productIndex === -1) {
+            return res.status(404).json({ error: 'Produit non trouvé dans le panier' });
+        }
+        
+        // Update the quantity
+        const qtyToRemove = parseInt(quantity || 1);
+        cartContent[productIndex].quantity -= qtyToRemove;
+        
+        // Remove if quantity is 0 or less
+        if (cartContent[productIndex].quantity <= 0) {
+            cartContent.splice(productIndex, 1);
+        }
+        
+        // Update the cart in the database
+        await database.query('UPDATE carts SET cart_content = ? WHERE client_id = ?', [
+            JSON.stringify(cartContent),
+            client_id
+        ]);
+        
+        return res.status(200).json({ message: 'Panier mis à jour' });
+        
+    } catch (error) {
+        console.error('Error updating cart:', error);
+        return res.status(500).json({ error: 'Erreur serveur interne' });
     }
-    const token = authHeader.split(' ')[1];
-    jwt.verify(token, process.env.API_KEY, async (err, decoded) => {
-        if (err) {
+};
+  
+exports.getCart = async (req, res) => {
+    try {
+        const authHeader = req.headers.authorization;
+        if (!authHeader) {
+            return res.status(401).json({ error: 'Aucun token fourni' });
+        }
+        
+        const token = authHeader.split(' ')[1];
+        let decoded;
+        try {
+            decoded = jwt.verify(token, process.env.API_KEY);
+        } catch (err) {
             return res.status(401).json({ error: 'Token invalide' });
         }
+        
         const client_id = decoded.id;
-
-        try {
-            // Récupérer le cart du client
-            const [cart] = await database.query('SELECT * FROM carts WHERE client_id = ?', [client_id]);
-
-            if (!cart || cart.length === 0) {
-                // Pas de panier pour ce client
+        
+        // Get the cart from database
+        const results = await database.query('SELECT * FROM carts WHERE client_id = ?', [client_id]);
+        
+        // No cart found
+        if (!results || results.length === 0) {
+            return res.status(200).json({ items: [] });
+        }
+        
+        const cart = results[0];
+        
+        // Empty cart
+        if (!cart || !cart.cart_content) {
+            return res.status(200).json({ items: [] });
+        }
+        
+        // Handle cart content that might be string or already parsed
+        let cartContent;
+        if (typeof cart.cart_content === 'string') {
+            try {
+                cartContent = JSON.parse(cart.cart_content);
+            } catch (err) {
+                console.error('Error parsing cart JSON:', err);
                 return res.status(200).json({ items: [] });
             }
-
-            const cartContent = JSON.parse(cart.cart_content);
-
-            // Fetch product details for each item in the cart
-            const productDetails = await Promise.all(cartContent.map(async item => {
-                const [product] = await database.query('SELECT * FROM products WHERE id_product = ?', [item.id_product]);
-                return {
-                    ...item,
-                    name: product.name,
-                    description: product.description,
-                    price: product.price,
-                    imagePath: product.imagePath
-                };
-            }));
-
-            res.status(200).json({ items: productDetails });
-        } catch (err) {
-            console.error('Erreur dans le fetching du cart:', err);
-            res.status(500).send('Internal server error');
+        } else {
+            // Already an object
+            cartContent = cart.cart_content;
         }
-    });
+        
+        // Ensure cartContent is an array
+        if (!Array.isArray(cartContent)) {
+            cartContent = [];
+        }
+        
+        // If cart is empty, return empty items array
+        if (cartContent.length === 0) {
+            return res.status(200).json({ items: [] });
+        }
+        
+        // Get product details for each item
+        const productDetails = [];
+        for (const item of cartContent) {
+            try {
+                const products = await database.query('SELECT * FROM products WHERE id_product = ?', [item.id_product]);
+                if (products && products.length > 0) {
+                    productDetails.push({
+                        ...item,
+                        name: products[0].name,
+                        description: products[0].description,
+                        price: products[0].price,
+                        imagePath: products[0].imagePath
+                    });
+                }
+            } catch (err) {
+                console.error(`Error fetching product ${item.id_product}:`, err);
+                // Continue with other products
+            }
+        }
+        
+        return res.status(200).json({ items: productDetails });
+        
+    } catch (err) {
+        console.error('Error in getCart:', err);
+        return res.status(500).json({ error: 'Erreur serveur interne' });
+    }
 };
 
 // SUPPRIMER UN PRODUIT DU PANIER
@@ -226,7 +334,6 @@ exports.removeProductFromCart = async (req, res) => {
             res.status(200).json({ message: 'Produits supprimés du cart' });
         } catch (error) {
             console.error('erreur dans la suppression du cart:', error);
-            res.status(500).send('Internal server error');
-        }
+            res.status(500).json({ error: 'Erreur serveur interne' });        }
     });
 };
