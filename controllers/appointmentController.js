@@ -28,7 +28,7 @@ exports.createAppointment = async (req, res) => {
             .concat(':00');
 
         const result = await conn.query(
-            'INSERT INTO appointment (appointment_id, client_name, appointment_date, appointment_time, symptoms, praticien_id) VALUES (?, ?, ?, ?, ?, ?)', 
+            'INSERT INTO appointment (client_id, client_name, appointment_date, appointment_time, symptoms, praticien_id) VALUES (?, ?, ?, ?, ?, ?)', 
             [clientId, clientName, date, formattedTimeSlot, JSON.stringify(symptoms), praticienId]
         );
         
