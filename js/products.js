@@ -32,9 +32,6 @@ function showNotification(productName) {
             <div class="notification-title">Produit ajouté !</div>
             <div class="notification-message">${productName} a été ajouté à votre panier</div>
         </div>
-        <button class="notification-close" onclick="closeNotification()">
-            <i class="fas fa-times"></i>
-        </button>
     `;
     
     notification.classList.add('show');
