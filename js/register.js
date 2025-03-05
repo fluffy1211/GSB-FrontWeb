@@ -42,7 +42,7 @@ registerForm.addEventListener('submit', async function (event) {
     }
 
     // Si tout est bon, on envoie la requête
-    const response = await fetch('http://localhost:3001/user/register', {
+    const response = await fetch('http://192.168.1.61:3001/user/register', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
