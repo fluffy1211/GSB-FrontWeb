@@ -10,7 +10,7 @@ document.getElementById('product').addEventListener('click', async () => {
     const productData = { name, description, price, imagePath, quantity };
 
     try {
-        const response = await fetch('http://localhost:3001/admin/add', {
+        const response = await fetch('http://192.168.1.61:3001/admin/add', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

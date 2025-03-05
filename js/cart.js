@@ -12,7 +12,7 @@ function getCookie(name) {
 async function updateCart(id_product, quantity) {
     const jwtToken = getCookie('jwt');
     try {
-        const response = await fetch('http://localhost:3001/cart/update', {
+        const response = await fetch('http://192.168.1.61:3001/cart/update', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -42,7 +42,7 @@ function calculateCartTotal(items) {
 const getCart = async () => {
     const jwtToken = getCookie('jwt');
     try {
-        const response = await fetch('http://localhost:3001/cart', {
+        const response = await fetch('http://192.168.1.61:3001/cart', {
             method: 'GET',
             headers: { 
                 'Content-Type': 'application/json',
@@ -135,7 +135,7 @@ const getCart = async () => {
 buy_button.addEventListener('click', async () => {
     const jwtToken = getCookie('jwt');
     try {
-        const response = await fetch('http://localhost:3001/order/create', {
+        const response = await fetch('http://192.168.1.61:3001/order/create', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

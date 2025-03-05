@@ -5,7 +5,7 @@ const pool = mariadb.createPool({
     user: 'root',
     password: '',
     database: 'gsb',
-    servername: 'localhost'
+    host: '127.0.0.1'
 });
 
 module.exports = pool;
