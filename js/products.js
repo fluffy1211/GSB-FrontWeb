@@ -20,7 +20,7 @@ const getNotification = () => {
     return document.getElementById('notification') || createNotificationElement();
 };
 
-// Show notification
+// Show notification - simplified without close button
 function showNotification(productName) {
     const notification = getNotification();
     
@@ -54,7 +54,7 @@ window.closeNotification = closeNotification;
 // Fetch products from API
 async function getProducts() {
     try {
-        const response = await fetch('http://192.168.1.61:3001/products');
+        const response = await fetch('http://localhost:3001/products');
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
@@ -134,7 +134,7 @@ async function addToCart(product) {
             return;
         }
         
-        const response = await fetch('http://192.168.1.61:3001/cart/add', {
+        const response = await fetch('http://localhost:3001/cart/add', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
