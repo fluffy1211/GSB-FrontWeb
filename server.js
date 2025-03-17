@@ -36,3 +36,5 @@ app.use('/appointment', appointmentRoute);
 app.listen(3001, '0.0.0.0', () => {
     console.log(`Server started on http://0.0.0.0:3001`);
 });
+
+module.exports = app;

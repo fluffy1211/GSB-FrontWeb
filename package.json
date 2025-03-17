@@ -23,6 +23,8 @@
   "devDependencies": {
     "jest": "^29.7.0",
     "live-server": "^1.2.2",
-    "nodemon": "^3.1.7"
+    "nodemon": "^3.1.7",
+    "superagent": "^10.2.0",
+    "supertest": "^7.0.0"
   }
 }
