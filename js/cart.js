@@ -87,10 +87,10 @@ const getCart = async () => {
             // Création du contenu avec des classes CSS appropriées
             card.innerHTML = `
                 <div class="cart-card-container">
-                    <img src="${item.imagePath || 'assets/placeholder-product.png'}" 
+                    <img src="${item.imagePath || '/assets/placeholder-product.png'}" 
                         alt="${item.name}" 
                         class="cart-card-img"
-                        onerror="this.src='assets/placeholder-product.png'">
+                        onerror="this.src='/assets/placeholder-product.png'">
                     <div class="cart-card-content">
                         <h3 class="cart-card-title">${item.name}</h3>
                         <p class="cart-card-description">${item.description}</p>

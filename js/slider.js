@@ -1,5 +1,5 @@
 // SLIDER
-const slide = ["assets/medicaments_1.jpg", "assets/medicaments_2.jpg", "assets/medicaments_3.jpg", "assets/medicaments_4.jpg"];
+const slide = ["/assets/medicaments_1.jpg", "/assets/medicaments_2.jpg", "/assets/medicaments_3.jpg", "/assets/medicaments_4.jpg"];
 let numero = 0;
 
 function ChangeSlide(sens) {

@@ -53,7 +53,7 @@ registerForm.addEventListener('submit', async function (event) {
     // Si la requête est un succès, on redirige l'utilisateur vers la page de login
     const result = await response.json();
     if (response.ok) {
-        document.location.href = 'login.html';
+        document.location.href = '/login.html';
     } else {
         errorMsg.innerHTML = result.message || 'Erreur lors de l\'inscription. Veuillez réessayer.';
     }
