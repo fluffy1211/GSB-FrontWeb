@@ -2,7 +2,7 @@ const messageDiv = document.getElementById('message');
 console.log('admin.js loaded');
 
 // Base URL for API calls
-const API_BASE_URL = 'http://localhost:3001';
+const API_BASE_URL = 'http://192.168.1.61:3001';
 
 // Initialize the admin page
 document.addEventListener('DOMContentLoaded', () => {
