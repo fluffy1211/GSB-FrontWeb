@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel - GSB</title>
+    <title>Document</title>
     <link rel="stylesheet" href="css/style.css">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
@@ -16,64 +16,30 @@
 <body>
     <header id="header-placeholder"></header>
     <main>
-        <h1 class="admin-title">Administration GSB</h1>
-        
-        <section class="admin-section">
-            <h2>Ajouter un nouveau produit</h2>
-            <table class="inventory-table">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Description</th>
-                        <th>Price</th>
-                        <th>Image Path</th>
-                        <th>Quantity</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><input type="text" placeholder="Product Name"></td>
-                        <td><input type="text" placeholder="Description"></td>
-                        <td><input type="number" placeholder="Price" step="0.01"></td>
-                        <td><input type="text" placeholder="Image URL"></td>
-                        <td><input type="number" placeholder="Quantity"></td>
-                        <td><button id="product" class="admin-btn">Ajouter</button></td>
-                    </tr>
-                </tbody>
-            </table>
-            <div id="message" class="admin-message"></div>
-        </section>
-
-        <section class="admin-section">
-            <h2>Gérer les produits existants</h2>
-            <div class="admin-filter">
-                <input type="text" id="product-search" placeholder="Rechercher un produit...">
-            </div>
-            <div id="products-container" class="admin-products">
-                <table class="admin-table">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Image</th>
-                            <th>Nom</th>
-                            <th>Description</th>
-                            <th>Prix</th>
-                            <th>Quantité</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="products-list">
-                        <!-- Products will be loaded here dynamically -->
-                        <tr><td colspan="7" class="loading-message">Chargement des produits...</td></tr>
-                    </tbody>
-                </table>
-            </div>
-        </section>
+        <table class="inventory-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <th>Image Path</th>
+                    <th>Quantity</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><input type="text" placeholder="Product Name"></td>
+                    <td><input type="text" placeholder="Description"></td>
+                    <td><input type="number" placeholder="Price" step="0.01"></td>
+                    <td><input type="text" placeholder="Image URL"></td>
+                    <td><input type="number" placeholder="Quantity"></td>
+                </tr>
+            </tbody>
+        </table>
+        <button id="product">Ajouter un produit</button>
+        <div id="message"></div>
     </main>
-
     <footer id="footer-placeholder"></footer>
-    
 </body>
 </html>
 
