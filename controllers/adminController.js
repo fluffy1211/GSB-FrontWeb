@@ -147,3 +147,76 @@ exports.removePraticien = async (req, res) => {
         res.status(500).json({ error: 'Server error' });
     }
 };
+
+exports.getProducts = async (req, res) => {
+    try {
+        console.log('Fetching all products for admin panel');
+        const conn = await database.getConnection();
+        const products = await conn.query('SELECT * FROM products');
+        conn.release();
+
+        // Convert any BigInt values to regular numbers to avoid JSON serialization issues
+        const sanitizedProducts = products.map(product => ({
+            ...product,
+            id_product: Number(product.id_product),
+            quantity: Number(product.quantity)
+        }));
+
+        res.status(200).json(sanitizedProducts);
+    } catch (error) {
+        console.error('Error fetching products:', error);
+        res.status(500).json({ error: 'Server error' });
+    }
+};
+
+exports.removeProduct = async (req, res) => {
+    const productId = req.params.id;
+    console.log(`Received request to remove product with ID: ${productId}`);
+
+    if (!productId) {
+        console.log('Validation failed: Missing product ID');
+        return res.status(400).json({ error: 'Product ID is required' });
+    }
+
+    try {
+        console.log('Connecting to database...');
+        const conn = await database.getConnection();
+        
+        // First check if the product exists
+        console.log(`Checking if product with ID ${productId} exists`);
+        const checkResult = await conn.query('SELECT * FROM products WHERE id_product = ?', [productId]);
+        
+        if (!checkResult || checkResult.length === 0) {
+            console.log(`Product with ID ${productId} not found`);
+            conn.release();
+            return res.status(404).json({ error: 'Product not found' });
+        }
+        
+        // Now delete the product
+        console.log(`Deleting product with ID ${productId}`);
+        const deleteProductResult = await conn.query(
+            'DELETE FROM products WHERE id_product = ?', 
+            [productId]
+        );
+        
+        // Convert BigInt to Number in the log
+        const affectedRows = Number(deleteProductResult.affectedRows);
+        
+        console.log(`Product deletion result: ${affectedRows} rows affected`);
+        
+        if (affectedRows === 0) {
+            conn.release();
+            return res.status(404).json({ error: 'Product could not be deleted' });
+        }
+        
+        conn.release();
+        res.status(200).json({ 
+            message: 'Product removed successfully',
+            productId: productId
+        });
+        
+    } catch (error) {
+        console.error("Error removing product:", error);
+        res.status(500).json({ error: 'Server error' });
+    }
+};
