@@ -1984,3 +1984,233 @@ main {
         width: 30%;
     }
 }
+
+/* IMPROVED ADMIN PAGE STYLING */
+main h2 {
+    color: var(--primary-color);
+    font-size: 2.4rem;
+    margin: 2rem 0 1.5rem;
+    text-align: center;
+    position: relative;
+    width: 100%;
+}
+
+main h2::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background: var(--secondary-color);
+    border-radius: 2px;
+}
+
+/* Enhanced inventory table styling */
+.inventory-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    background-color: white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 2rem;
+}
+
+.inventory-table th {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 15px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 1.4rem;
+    letter-spacing: 0.5px;
+    border: none;
+}
+
+.inventory-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #edf2f7;
+    font-size: 1.3rem;
+}
+
+.inventory-table tr:last-child td {
+    border-bottom: none;
+}
+
+.inventory-table input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-size: 1.3rem;
+    transition: all 0.3s ease;
+}
+
+.inventory-table input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(81, 130, 189, 0.2);
+}
+
+.inventory-table input[type="number"] {
+    text-align: right;
+}
+
+/* Product management table */
+.products-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin: 2rem 0;
+    background: white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.products-table th {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 15px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 1.4rem;
+    letter-spacing: 0.5px;
+    border: none;
+}
+
+/* Admin product list styles */
+.admin-product-img {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+    margin-right: 15px;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+    border: 1px solid #eaeaea;
+}
+
+.product-info {
+    display: flex;
+    align-items: center;
+}
+
+.quantity-badge {
+    display: inline-block;
+    padding: 5px 12px;
+    border-radius: 20px;
+    background-color: #f1f5f9;
+    color: #333;
+    font-weight: 600;
+    border: 1px solid #e2e8f0;
+}
+
+/* Remove the low-stock class styling or make it neutral */
+.quantity-badge.low-stock {
+    background-color: #f1f5f9;
+    color: #333;
+}
+
+/* Admin button styles */
+#product {
+    display: block;
+    width: 100%;
+    max-width: 300px;
+    margin: 2rem auto;
+    padding: 1.2rem 2rem;
+    background-color: var(--primary-color);
+    color: white;
+    font-size: 1.6rem;
+    font-weight: 500;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+#product:hover {
+    background-color: var(--secondary-color);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+#product:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.delete-product-btn {
+    padding: 0.8rem 1.5rem;
+    background-color: #e53e3e;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1.4rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.delete-product-btn:hover {
+    background-color: #c53030;
+    transform: translateY(-2px);
+}
+
+.delete-product-btn:active {
+    transform: translateY(1px);
+}
+
+.delete-product-btn i {
+    font-size: 1.4rem;
+    color: white;
+}
+
+/* Also style the message div for better feedback */
+#message {
+    width: 100%;
+    max-width: 500px;
+    margin: 1.5rem auto;
+    padding: 1rem;
+    text-align: center;
+    font-size: 1.6rem;
+    font-weight: 500;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+#message:not(:empty) {
+    background-color: #e6f7ee;
+    border-left: 4px solid #2e7d32;
+    color: #2e7d32;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Style the products table for better readability */
+.products-table td {
+    padding: 1.2rem 1.5rem;
+    vertical-align: middle;
+    border-bottom: 1px solid #edf2f7;
+    font-size: 1.4rem;
+}
+
+.products-table tr:hover {
+    background-color: #f9fafb;
+}
+
+.products-table tr:last-child td {
+    border-bottom: none;
+}

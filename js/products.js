@@ -54,7 +54,7 @@ window.closeNotification = closeNotification;
 // Fetch products from API
 async function getProducts() {
     try {
-        const response = await fetch('http://localhost:3001/products');
+        const response = await fetch(`${API_CONFIG.baseUrl}/products`);
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
@@ -134,7 +134,7 @@ async function addToCart(product) {
             return;
         }
         
-        const response = await fetch('http://localhost:3001/cart/add', {
+        const response = await fetch(`${API_CONFIG.baseUrl}/cart/add`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

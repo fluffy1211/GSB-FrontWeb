@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>GSB Admin</title>
     <link rel="stylesheet" href="css/style.css">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
@@ -11,11 +11,13 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="js/template.js" defer></script>
     <script src="js/nav.js" defer></script>
+    <script src="js/config.js" defer></script>
     <script src="js/admin.js" defer></script>
 </head>
 <body>
     <header id="header-placeholder"></header>
     <main>
+        <h2>Add New Product</h2>
         <table class="inventory-table">
             <thead>
                 <tr>
@@ -38,6 +40,23 @@
         </table>
         <button id="product">Ajouter un produit</button>
         <div id="message"></div>
+        
+        <h2>Manage Products</h2>
+        <table class="products-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="products-list">
+                <!-- Products will be loaded here by JavaScript -->
+            </tbody>
+        </table>
     </main>
     <footer id="footer-placeholder"></footer>
 </body>
