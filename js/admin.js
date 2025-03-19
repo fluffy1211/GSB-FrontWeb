@@ -57,7 +57,7 @@ async function loadProducts() {
             // Check if image path is valid or use a placeholder
             const imageSrc = product.imagePath && product.imagePath.trim() !== '' 
                 ? product.imagePath 
-                : 'assets/placeholder-product.png';
+                : '/assets/placeholder-product.png';
                 
             const row = document.createElement('tr');
             row.innerHTML = `
@@ -65,7 +65,7 @@ async function loadProducts() {
                 <td>
                     <div class="product-info">
                         <img src="${imageSrc}" alt="${product.name}" class="admin-product-img" 
-                             onerror="this.src='assets/placeholder-product.png'">
+                             onerror="this.src='/assets/placeholder-product.png'">
                         <span>${product.name}</span>
                     </div>
                 </td>

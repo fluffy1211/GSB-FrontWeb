@@ -1,6 +1,6 @@
 Promise.all([
-    fetch("header.html").then(response => response.text()),
-    fetch("footer.html").then(response => response.text())
+    fetch("/header.html").then(response => response.text()),
+    fetch("/footer.html").then(response => response.text())
 ]).then(([headerData, footerData]) => {
     try {
         document.getElementById("header-placeholder").innerHTML = headerData;
