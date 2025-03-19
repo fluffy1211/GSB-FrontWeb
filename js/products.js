@@ -83,10 +83,10 @@ function renderProducts(products) {
         // Check if image path is valid or use a placeholder
         const imageSrc = product.imagePath && product.imagePath.trim() !== '' 
             ? product.imagePath 
-            : 'assets/placeholder-product.png';
+            : '/assets/placeholder-product.png';
             
         productCard.innerHTML = `
-            <img class="card-img" src="${imageSrc}" alt="${product.name}" onerror="this.src='assets/placeholder-product.png'">
+            <img class="card-img" src="${imageSrc}" alt="${product.name}" onerror="this.src='/assets/placeholder-product.png'">
             <div class="card-content">
                 <h2 class="card-title">${product.name}</h2>
                 <p class="card-description">${product.description}</p>
