@@ -9,6 +9,34 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
         integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA+gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Immediate admin check -->
+    <script>
+        // Check for admin access before page loads
+        (function() {
+            function getCookie(name) {
+                const value = `; ${document.cookie}`;
+                const parts = value.split(`; ${name}=`);
+                if (parts.length === 2) return parts.pop().split(';').shift();
+                return null;
+            }
+            
+            const token = getCookie('jwt');
+            if (!token) {
+                window.location.href = '/login.html';
+                return;
+            }
+            
+            try {
+                // Basic JWT decode
+                const payload = JSON.parse(atob(token.split('.')[1]));
+                if (!payload || payload.role !== 'admin') {
+                    window.location.href = '/';
+                }
+            } catch (e) {
+                window.location.href = '/';
+            }
+        })();
+    </script>
     <script src="/js/template.js" defer></script>
     <script src="/js/nav.js" defer></script>
     <script src="/js/config.js" defer></script>
@@ -18,45 +46,59 @@
     <header id="header-placeholder"></header>
     <main>
         <h2>Add New Product</h2>
-        <table class="inventory-table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Description</th>
-                    <th>Price</th>
-                    <th>Image Path</th>
-                    <th>Quantity</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><input type="text" placeholder="Product Name"></td>
-                    <td><input type="text" placeholder="Description"></td>
-                    <td><input type="number" placeholder="Price" step="0.01"></td>
-                    <td><input type="text" placeholder="Image URL"></td>
-                    <td><input type="number" placeholder="Quantity"></td>
-                </tr>
-            </tbody>
-        </table>
-        <button id="product">Ajouter un produit</button>
+        <div class="form-container">
+            <form id="add-product-form">
+                <div class="form-group">
+                    <label for="product-name">Name</label>
+                    <input type="text" id="product-name" placeholder="Product Name">
+                </div>
+                <div class="form-group">
+                    <label for="product-description">Description</label>
+                    <input type="text" id="product-description" placeholder="Description">
+                </div>
+                <div class="form-group">
+                    <label for="product-price">Price (€)</label>
+                    <input type="number" id="product-price" placeholder="Price" step="0.01">
+                </div>
+                <div class="form-group">
+                    <label for="product-image">Image URL</label>
+                    <input type="text" id="product-image" placeholder="Image URL">
+                </div>
+                <div class="form-group">
+                    <label for="product-quantity">Quantity</label>
+                    <input type="number" id="product-quantity" placeholder="Quantity">
+                </div>
+                <button type="button" id="product" class="form-submit-btn">Ajouter un produit</button>
+            </form>
+        </div>
         <div id="message"></div>
         
         <h2>Manage Products</h2>
-        <table class="products-table">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Description</th>
-                    <th>Price</th>
-                    <th>Quantity</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody id="products-list">
-                <!-- Products will be loaded here by JavaScript -->
-            </tbody>
-        </table>
+        <div class="products-container">
+            <!-- Traditional table for desktop view -->
+            <div class="table-responsive desktop-only">
+                <table class="products-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="products-table-list">
+                        <!-- Products will be loaded here by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Card-based layout for mobile view -->
+            <div id="products-card-list" class="mobile-only">
+                <!-- Products will be loaded here as cards by JavaScript -->
+            </div>
+        </div>
     </main>
     <footer id="footer-placeholder"></footer>
 </body>

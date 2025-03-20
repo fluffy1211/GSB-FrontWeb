@@ -2214,3 +2214,555 @@ main h2::after {
 .products-table tr:last-child td {
     border-bottom: none;
 }
+
+/* RESPONSIVE ADMIN TABLES */
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    margin-bottom: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* Mobile-friendly admin tables */
+@media screen and (max-width: 768px) {
+    .inventory-table, .products-table {
+        width: 100%;
+        border: 0;
+    }
+  
+    .inventory-table thead, .products-table thead {
+        display: none;
+    }
+    
+    .inventory-table tbody, .products-table tbody,
+    .inventory-table tr, .products-table tr {
+        display: block;
+        width: 100%;
+    }
+    
+    .inventory-table tr, .products-table tr {
+        margin-bottom: 20px;
+        border: 1px solid #edf2f7;
+        border-radius: 8px;
+        background: white;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+    
+    .inventory-table td, .products-table td {
+        display: block;
+        text-align: right;
+        padding: 12px 15px;
+        position: relative;
+        border-bottom: 1px solid #edf2f7;
+    }
+    
+    .inventory-table td:last-child, .products-table td:last-child {
+        border-bottom: 0;
+    }
+    
+    .inventory-table td::before, .products-table td::before {
+        content: attr(data-label);
+        float: left;
+        font-weight: bold;
+        color: var(--primary-color);
+    }
+    
+    /* Product info adjustments for mobile */
+    .product-info {
+        justify-content: flex-end;
+        flex-direction: row-reverse;
+    }
+    
+    .product-info span {
+        margin-right: 15px;
+        text-align: right;
+    }
+    
+    .admin-product-img {
+        margin-right: 0;
+        margin-left: 15px;
+    }
+    
+    /* Input controls */
+    .inventory-table input {
+        width: 100%;
+        padding: 12px;
+        font-size: 16px; /* Prevent zoom on iOS */
+    }
+    
+    /* Button adjustments for mobile */
+    #product {
+        width: 90%;
+        max-width: none;
+        font-size: 1.6rem;
+        padding: 1.5rem;
+        margin: 1.5rem auto;
+    }
+    
+    #message {
+        max-width: 90%;
+    }
+    
+    .delete-product-btn {
+        width: 100%;
+        padding: 1.2rem;
+        margin-top: 10px;
+        justify-content: center;
+    }
+}
+
+/* Responsive padding for main content */
+@media screen and (max-width: 768px) {
+    main {
+        padding: 0 1rem;
+    }
+    
+    main h2 {
+        font-size: 2rem;
+        margin: 1.5rem 0;
+    }
+    
+    main h2::after {
+        width: 60px;
+        bottom: -8px;
+    }
+}
+
+/* Ensure admin page has better spacing on mobile */
+@media screen and (max-width: 480px) {
+    .table-responsive {
+        margin-bottom: 1.5rem;
+    }
+    
+    .inventory-table td, .products-table td {
+        padding: 10px 12px;
+    }
+    
+    .inventory-table input {
+        padding: 10px;
+    }
+    
+    #product {
+        font-size: 1.5rem;
+        padding: 1.2rem;
+    }
+}
+
+/* IMPROVED RESPONSIVE ADMIN TABLES */
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    margin-bottom: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+@media screen and (max-width: 768px) {
+    /* Better table container spacing */
+    .table-responsive {
+        margin: 0.5rem 0 2rem;
+        box-shadow: none;
+    }
+    
+    .inventory-table, .products-table {
+        width: 100%;
+        border: 0;
+        box-shadow: none;
+    }
+  
+    .inventory-table thead, .products-table thead {
+        display: none;
+    }
+    
+    .inventory-table tbody, .products-table tbody,
+    .inventory-table tr, .products-table tr {
+        display: block;
+        width: 100%;
+    }
+    
+    /* Better card-like styling for rows */
+    .inventory-table tr, .products-table tr {
+        margin-bottom: 20px;
+        border: 1px solid #edf2f7;
+        border-radius: 8px;
+        background: white;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .inventory-table td, .products-table td {
+        display: block;
+        text-align: right;
+        padding: 15px;
+        position: relative;
+        border-bottom: 1px solid #edf2f7;
+    }
+    
+    .inventory-table td:last-child, .products-table td:last-child {
+        border-bottom: 0;
+    }
+    
+    /* Improved labels */
+    .inventory-table td::before, .products-table td::before {
+        content: attr(data-label);
+        float: left;
+        font-weight: bold;
+        color: var(--primary-color);
+        padding-right: 10px;
+        white-space: nowrap;
+        font-size: 1.4rem;
+    }
+    
+    /* Better handling of product info on mobile */
+    .product-info {
+        justify-content: flex-end;
+        flex-direction: row-reverse;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    
+    .product-info span {
+        display: inline-block;
+        margin-right: 0;
+        text-align: right;
+        font-weight: 500;
+    }
+    
+    /* Larger product image on mobile for better visibility */
+    .admin-product-img {
+        width: 60px;
+        height: 60px;
+        margin: 0;
+        border-radius: 6px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Better input styling on mobile */
+    .inventory-table input {
+        width: 100%;
+        padding: 15px;
+        font-size: 16px; /* Prevent zoom on iOS */
+        border-radius: 8px;
+        border: 2px solid #e2e8f0;
+        margin-top: 5px;
+    }
+    
+    .inventory-table input:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(81, 130, 189, 0.2);
+    }
+    
+    /* Full-width delete button with better tap target */
+    .delete-product-btn {
+        width: 100%;
+        padding: 1.5rem;
+        margin-top: 8px;
+        justify-content: center;
+        font-size: 1.6rem;
+        border-radius: 8px;
+    }
+    
+    .delete-product-btn i {
+        font-size: 1.6rem;
+        margin-right: 8px;
+    }
+    
+    /* Better quantity badge */
+    .quantity-badge {
+        padding: 6px 14px;
+        font-size: 1.5rem;
+        border-radius: 30px;
+    }
+    
+    /* Better add product button */
+    #product {
+        width: 90%;
+        max-width: none;
+        font-size: 1.8rem;
+        padding: 1.8rem 1rem;
+        margin: 2.5rem auto 1.5rem;
+        border-radius: 8px;
+    }
+    
+    #message {
+        max-width: 90%;
+        padding: 1.5rem;
+        font-size: 1.6rem;
+    }
+}
+
+/* Smallest screens refinements */
+@media screen and (max-width: 480px) {
+    main h2 {
+        font-size: 2.2rem;
+        margin: 2rem 0 2.5rem;
+    }
+    
+    .inventory-table td, .products-table td {
+        padding: 12px 15px;
+    }
+    
+    /* Single column form with improved spacing */
+    .inventory-table tr td {
+        margin-bottom: 8px;
+    }
+    
+    /* Extra space for action buttons */
+    .products-table td[data-label="Actions"] {
+        padding-top: 15px;
+        padding-bottom: 15px;
+    }
+    
+    /* Better spacing around product info */
+    .products-table td[data-label="Name"] {
+        padding-top: 15px;
+        padding-bottom: 15px;
+    }
+    
+    /* Ensure form has enough spacing */
+    .table-responsive:first-of-type {
+        margin-bottom: 1rem;
+    }
+}
+
+/* NEW RESPONSIVE ADMIN LAYOUT */
+.form-container {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto 2rem;
+    padding: 2rem;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+#add-product-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+    padding: 0;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    font-size: 1.4rem;
+    margin-bottom: 0.5rem;
+    color: #333;
+    font-weight: 600;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 1.2rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 1.4rem;
+    transition: all 0.3s ease;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(81, 130, 189, 0.2);
+}
+
+.form-submit-btn {
+    grid-column: 1 / -1;
+    padding: 1.2rem;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.6rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 1rem;
+}
+
+.form-submit-btn:hover {
+    background-color: var(--secondary-color);
+    transform: translateY(-2px);
+}
+
+/* Mobile/Desktop visibility classes */
+.desktop-only, .mobile-only {
+    display: none;
+}
+
+/* Products container */
+.products-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Product Cards for Mobile */
+.product-card {
+    position: relative;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+    overflow: hidden;
+}
+
+.product-card-header {
+    padding: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #edf2f7;
+    background-color: #f8f9fa;
+}
+
+.product-card-id {
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.product-card-body {
+    padding: 1.5rem;
+}
+
+.product-card-img-wrapper {
+    float: left;
+    margin-right: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.product-card-img {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #eaeaea;
+}
+
+.product-card-title {
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 0.8rem;
+    color: #333;
+}
+
+.product-card-description {
+    font-size: 1.4rem;
+    color: #666;
+    margin-bottom: 1.2rem;
+    clear: both;
+}
+
+.product-card-price {
+    font-size: 1.6rem;
+    color: var(--primary-color);
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.product-card-quantity {
+    font-size: 1.4rem;
+    color: #333;
+    margin-bottom: 1.5rem;
+}
+
+.product-card-quantity span {
+    display: inline-block;
+    padding: 0.4rem 1rem;
+    background-color: #f1f5f9;
+    border-radius: 30px;
+    font-weight: 600;
+}
+
+.product-card-actions {
+    display: flex;
+    justify-content: flex-end;
+    border-top: 1px solid #edf2f7;
+    padding-top: 1.5rem;
+}
+
+.delete-card-btn {
+    padding: 1.2rem 2rem;
+    background-color: #e53e3e;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+    transition: all 0.3s ease;
+}
+
+.delete-card-btn:hover {
+    background-color: #c53030;
+}
+
+.delete-card-btn i {
+    font-size: 1.5rem;
+    color: white;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 1024px) {
+    .form-container {
+        padding: 1.5rem;
+    }
+    
+    #add-product-form {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .mobile-only {
+        display: block;
+    }
+    
+    .desktop-only {
+        display: none;
+    }
+    
+    .form-container {
+        box-shadow: none;
+        padding: 0;
+    }
+    
+    .form-group label {
+        font-size: 1.6rem;
+    }
+    
+    .form-group input {
+        padding: 1.5rem;
+        font-size: 1.6rem;
+    }
+    
+    .form-submit-btn {
+        padding: 1.5rem;
+        font-size: 1.8rem;
+    }
+    
+    #message {
+        margin: 1.5rem 0;
+        padding: 1.5rem;
+    }
+}
+
+@media screen and (min-width: 769px) {
+    .desktop-only {
+        display: block;
+    }
+    
+    .mobile-only {
+        display: none;
+    }
+}
