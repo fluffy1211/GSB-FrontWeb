@@ -1,16 +1,60 @@
 const messageDiv = document.getElementById('message');
 console.log('admin.js');
 
-// Remove the getApiBaseUrl function and API_BASE_URL declaration
-// Instead, use API_CONFIG from config.js
+// Check admin access when page loads
+function checkAdminAccess() {
+    const token = getCookie('jwt');
+    
+    if (!token) {
+        // No token found, redirect to login
+        window.location.href = '/login.html';
+        return false;
+    }
+    
+    try {
+        // Decode JWT payload (without verification as that happens on the server)
+        const parts = token.split('.');
+        if (parts.length !== 3) throw new Error('Invalid token format');
+        
+        const payload = JSON.parse(atob(parts[1]));
+        
+        if (payload.role !== 'admin') {
+            // User is not an admin, redirect to home
+            window.location.href = '/';
+            return false;
+        }
+        
+        return true;
+    } catch (error) {
+        console.error('Error checking admin access:', error);
+        window.location.href = '/';
+        return false;
+    }
+}
+
+// Helper function to get cookie
+function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+    return null;
+}
+
+// Check admin access immediately
+document.addEventListener('DOMContentLoaded', () => {
+    if (!checkAdminAccess()) return;
+    
+    // Only load products if admin access check passes
+    loadProducts();
+});
 
 // Add product functionality
 document.getElementById('product').addEventListener('click', async () => {
-    const name = document.querySelector('input[placeholder="Product Name"]').value;
-    const description = document.querySelector('input[placeholder="Description"]').value;
-    const price = document.querySelector('input[placeholder="Price"]').value;
-    const imagePath = document.querySelector('input[placeholder="Image URL"]').value;
-    const quantity = document.querySelector('input[placeholder="Quantity"]').value;
+    const name = document.getElementById('product-name').value;
+    const description = document.getElementById('product-description').value;
+    const price = document.getElementById('product-price').value;
+    const imagePath = document.getElementById('product-image').value;
+    const quantity = document.getElementById('product-quantity').value;
 
     const productData = { name, description, price, imagePath, quantity };
 
@@ -24,19 +68,16 @@ document.getElementById('product').addEventListener('click', async () => {
         });
 
         if (response.ok) {
-            console.log('ça marche');
             messageDiv.textContent = "Produit bien ajouté!";
             // Clear form fields
-            document.querySelectorAll('.inventory-table input').forEach(input => input.value = '');
+            document.querySelectorAll('#add-product-form input').forEach(input => input.value = '');
             // Refresh the product list
             loadProducts();
         } else {
-            console.log("Erreur dans l'ajout");
             messageDiv.textContent = "Erreur dans l'ajout";
         }
     } catch (error) {
         console.error('Error:', error);
-        console.log('Erreur dans la requête');
         messageDiv.textContent = "Erreur dans la requête";
     }
 });
@@ -50,15 +91,25 @@ async function loadProducts() {
         }
         
         const products = await response.json();
-        const productsList = document.getElementById('products-list');
-        productsList.innerHTML = '';
+        
+        // Update table for desktop view
+        const productsTableList = document.getElementById('products-table-list');
+        productsTableList.innerHTML = '';
+        
+        // Update cards for mobile view
+        const productsCardList = document.getElementById('products-card-list');
+        productsCardList.innerHTML = '';
         
         products.forEach(product => {
             // Check if image path is valid or use a placeholder
             const imageSrc = product.imagePath && product.imagePath.trim() !== '' 
                 ? product.imagePath 
                 : '/assets/placeholder-product.png';
-                
+            
+            // Format price to always show 2 decimal places
+            const formattedPrice = parseFloat(product.price).toFixed(2);
+            
+            // 1. Create table row for desktop
             const row = document.createElement('tr');
             row.innerHTML = `
                 <td>${product.id_product}</td>
@@ -70,7 +121,7 @@ async function loadProducts() {
                     </div>
                 </td>
                 <td>${product.description.substring(0, 50)}${product.description.length > 50 ? '...' : ''}</td>
-                <td>${product.price}€</td>
+                <td>${formattedPrice}€</td>
                 <td>
                     <span class="quantity-badge">${product.quantity}</span>
                 </td>
@@ -80,11 +131,36 @@ async function loadProducts() {
                     </button>
                 </td>
             `;
-            productsList.appendChild(row);
+            productsTableList.appendChild(row);
+            
+            // 2. Create card for mobile
+            const card = document.createElement('div');
+            card.className = 'product-card';
+            card.innerHTML = `
+                <div class="product-card-header">
+                    <span class="product-card-id">ID: ${product.id_product}</span>
+                </div>
+                <div class="product-card-body">
+                    <div class="product-card-img-wrapper">
+                        <img src="${imageSrc}" alt="${product.name}" class="product-card-img" 
+                             onerror="this.src='/assets/placeholder-product.png'">
+                    </div>
+                    <h3 class="product-card-title">${product.name}</h3>
+                    <p class="product-card-description">${product.description.substring(0, 100)}${product.description.length > 100 ? '...' : ''}</p>
+                    <div class="product-card-price">${formattedPrice}€</div>
+                    <div class="product-card-quantity">Quantity: <span>${product.quantity}</span></div>
+                    <div class="product-card-actions">
+                        <button class="delete-card-btn" data-id="${product.id_product}">
+                            <i class="fas fa-trash"></i> Delete
+                        </button>
+                    </div>
+                </div>
+            `;
+            productsCardList.appendChild(card);
         });
         
-        // Add event listeners to delete buttons
-        document.querySelectorAll('.delete-product-btn').forEach(button => {
+        // Add event listeners to delete buttons (both in table and cards)
+        document.querySelectorAll('.delete-product-btn, .delete-card-btn').forEach(button => {
             button.addEventListener('click', deleteProduct);
         });
         
@@ -142,6 +218,3 @@ async function deleteProduct(event) {
         messageDiv.textContent = "";
     }
 }
-
-// Load products when the page loads
-document.addEventListener('DOMContentLoaded', loadProducts);

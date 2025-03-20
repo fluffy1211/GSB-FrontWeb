@@ -1,6 +1,8 @@
 const express = require('express');
 const cors = require('cors');
 const app = express();
+const path = require('path');
+const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
 app.use(cors());
@@ -15,6 +17,43 @@ app.use((req, res, next) => {
   }
   next();
 });
+
+// Admin page protection middleware - must come before static file serving
+app.get('/admin.html', (req, res, next) => {
+    const authHeader = req.headers['authorization'];
+    const cookieHeader = req.headers['cookie'];
+    let token = null;
+    
+    // Try to get token from Authorization header
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+        token = authHeader.split(' ')[1];
+    } 
+    // Try to get token from cookie
+    else if (cookieHeader) {
+        const cookies = cookieHeader.split(';');
+        const jwtCookie = cookies.find(cookie => cookie.trim().startsWith('jwt='));
+        if (jwtCookie) {
+            token = jwtCookie.split('=')[1];
+        }
+    }
+    
+    if (!token) {
+        return res.redirect('/login.html');
+    }
+    
+    try {
+        const decoded = jwt.verify(token, process.env.API_KEY);
+        if (decoded.role !== 'admin') {
+            return res.redirect('/');
+        }
+        next();
+    } catch (err) {
+        return res.redirect('/login.html');
+    }
+});
+
+// Serve static files
+app.use(express.static(path.join(__dirname)));
 
 // Routes
 const userRoute = require('./routes/userRoute.js');
