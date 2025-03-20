@@ -46,5 +46,4 @@ const verifyAdmin = (req, res, next) => {
     });
 };
 
-// Make sure we export both functions as named exports
 module.exports = { verifyToken, verifyAdmin };
