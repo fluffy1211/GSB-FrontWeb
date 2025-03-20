@@ -20,16 +20,11 @@ app.use((req, res, next) => {
 
 // Admin page protection middleware - must come before static file serving
 app.get('/admin.html', (req, res, next) => {
-    const authHeader = req.headers['authorization'];
     const cookieHeader = req.headers['cookie'];
     let token = null;
     
-    // Try to get token from Authorization header
-    if (authHeader && authHeader.startsWith('Bearer ')) {
-        token = authHeader.split(' ')[1];
-    } 
     // Try to get token from cookie
-    else if (cookieHeader) {
+    if (cookieHeader) {
         const cookies = cookieHeader.split(';');
         const jwtCookie = cookies.find(cookie => cookie.trim().startsWith('jwt='));
         if (jwtCookie) {

@@ -6,7 +6,7 @@ const { verifyAdmin } = require('../middleware/auth');
 // Protect all admin routes
 router.use(verifyAdmin);
 
-router.post('/add', adminController.addProduct)
+router.post('/add', adminController.addProduct);
 router.post('/addPraticien', adminController.addPraticien);
 router.delete('/praticien/:id', adminController.removePraticien);
 router.delete('/product/:id', adminController.removeProduct);
