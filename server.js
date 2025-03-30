@@ -4,6 +4,7 @@ const app = express();
 const path = require('path');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
+const { protectAdminPage } = require('./middleware/auth');
 
 app.use(cors());
 app.use(express.json());
@@ -18,36 +19,10 @@ app.use((req, res, next) => {
   next();
 });
 
-// Admin page protection middleware - must come before static file serving
-app.get('/admin.html', (req, res, next) => {
-    const cookieHeader = req.headers['cookie'];
-    let token = null;
-    
-    // Try to get token from cookie
-    if (cookieHeader) {
-        const cookies = cookieHeader.split(';');
-        const jwtCookie = cookies.find(cookie => cookie.trim().startsWith('jwt='));
-        if (jwtCookie) {
-            token = jwtCookie.split('=')[1];
-        }
-    }
-    
-    if (!token) {
-        return res.redirect('/login.html');
-    }
-    
-    try {
-        const decoded = jwt.verify(token, process.env.API_KEY);
-        if (decoded.role !== 'admin') {
-            return res.redirect('/');
-        }
-        next();
-    } catch (err) {
-        return res.redirect('/login.html');
-    }
-});
+// Middleware de protection de la page admin
+app.get('/admin.html', protectAdminPage);
 
-// Serve static files
+// Servir les fichiers statiques
 app.use(express.static(path.join(__dirname)));
 
 // Routes
@@ -68,7 +43,7 @@ app.use('/praticiens', praticiensRoute);
 app.use('/appointment', appointmentRoute);
 
 app.listen(3001, '0.0.0.0', () => {
-    console.log(`Server started on http://0.0.0.0:3001`);
+    console.log(`Serveur démarré sur http://0.0.0.0:3001`);
 });
 
 module.exports = app;

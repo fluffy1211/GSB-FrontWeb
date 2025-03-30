@@ -117,7 +117,6 @@ exports.addToCart = async (req, res) => {
 };
 
 // METTRE À JOUR OU SUPPRIMER UN PRODUIT DU PANIER
-// METTRE À JOUR OU SUPPRIMER UN PRODUIT DU PANIER
 exports.updateCart = async (req, res) => {
     try {
         const authHeader = req.headers.authorization;
@@ -216,46 +215,46 @@ exports.getCart = async (req, res) => {
         
         const client_id = decoded.id;
         
-        // Get the cart from database
+        // Récupérer le panier depuis la base de données
         const results = await database.query('SELECT * FROM carts WHERE client_id = ?', [client_id]);
         
-        // No cart found
+        // Aucun panier trouvé
         if (!results || results.length === 0) {
             return res.status(200).json({ items: [] });
         }
         
         const cart = results[0];
         
-        // Empty cart
+        // Panier vide
         if (!cart || !cart.cart_content) {
             return res.status(200).json({ items: [] });
         }
         
-        // Handle cart content that might be string or already parsed
+        // Gérer le contenu du panier qui pourrait être une chaîne ou déjà analysé
         let cartContent;
         if (typeof cart.cart_content === 'string') {
             try {
                 cartContent = JSON.parse(cart.cart_content);
             } catch (err) {
-                console.error('Error parsing cart JSON:', err);
+                console.error('Erreur lors de l\'analyse du JSON du panier:', err);
                 return res.status(200).json({ items: [] });
             }
         } else {
-            // Already an object
+            // Déjà un objet
             cartContent = cart.cart_content;
         }
         
-        // Ensure cartContent is an array
+        // Assurer que cartContent est un tableau
         if (!Array.isArray(cartContent)) {
             cartContent = [];
         }
         
-        // If cart is empty, return empty items array
+        // Si le panier est vide, renvoyer un tableau d'articles vide
         if (cartContent.length === 0) {
             return res.status(200).json({ items: [] });
         }
         
-        // Get product details for each item
+        // Récupérer les détails du produit pour chaque article
         const productDetails = [];
         for (const item of cartContent) {
             try {
@@ -270,8 +269,8 @@ exports.getCart = async (req, res) => {
                     });
                 }
             } catch (err) {
-                console.error(`Error fetching product ${item.id_product}:`, err);
-                // Continue with other products
+                console.error(`Erreur lors de la récupération du produit ${item.id_product}:`, err);
+                // Continuer avec d'autres produits
             }
         }
         

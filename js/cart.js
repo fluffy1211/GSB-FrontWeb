@@ -8,7 +8,7 @@ function getCookie(name) {
     if (parts.length === 2) return parts.pop().split(';').shift();
 }
 
-// Function pour update la quantité de l'item dans le cart
+// Fonction pour mettre à jour la quantité de l'article dans le panier
 async function updateCart(id_product, quantity) {
     const jwtToken = getCookie('jwt');
     try {
@@ -18,24 +18,29 @@ async function updateCart(id_product, quantity) {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${jwtToken}`
             },
-            body: JSON.stringify({ id_product, quantity })
+            body: JSON.stringify({
+                id_product,
+                quantity
+            })
         });
-        const data = await response.json();
-        if (response.ok) {
-            console.log('Cart updated:', data);
-            getCart(); // Refresh le cart
-        } else {
-            console.error('Error updating cart:', data);
+
+        if (!response.ok) {
+            throw new Error('Erreur lors de la mise à jour du panier');
         }
+
+        getCart(); // Actualiser le panier
     } catch (error) {
-        console.error('Error updating cart:', error);
+        console.error('Erreur:', error);
     }
 }
 
-// Calculate total
+// Calculer le total
 function calculateCartTotal(items) {
     if (!items || items.length === 0) return 0;
-    return items.reduce((total, item) => total + (item.price * item.quantity), 0).toFixed(2);
+    
+    return items.reduce((total, item) => {
+        return total + (parseFloat(item.price) * parseInt(item.quantity));
+    }, 0).toFixed(2);
 }
 
 // Version JS sans CSS inline, utilisant des classes CSS
@@ -122,7 +127,7 @@ const getCart = async () => {
         cartWrapper.appendChild(totalElement);
     }
     catch (error) {
-        console.error('Error fetching cart:', error);
+        console.error('Erreur lors de la récupération du panier:', error);
         const errorMsg = document.createElement('p');
         errorMsg.className = 'cart-error-message';
         errorMsg.textContent = 'Erreur lors de la récupération du panier';
@@ -146,12 +151,12 @@ buy_button.addEventListener('click', async () => {
         const data = await response.json();
         
         if (!response.ok) {
-            throw new Error(data.error || 'Error creating order');
+            throw new Error(data.error || 'Erreur lors de la création de la commande');
         }
         console.log("Commande créée avec succès")
-        getCart(); // Refresh cart
+        getCart(); // Actualiser le panier
     } catch (error) {
-        console.error('Error:', error);
+        console.error('Erreur:', error);
         alert('Votre panier est vide');
     }
 });
