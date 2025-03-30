@@ -4,25 +4,25 @@ const database = require('../database/db.js');
 
 exports.createAppointment = async (req, res) => {
     try {
-        // Get user data from middleware
+        // Récupérer les données utilisateur du middleware
         const clientId = req.user.id;
         const clientName = req.user.name;
 
         if (!clientId) {
-            return res.status(400).json({ error: 'No client_id found in token' });
+            return res.status(400).json({ error: 'Aucun client_id trouvé dans le token' });
         }
 
         const conn = await database.getConnection();
         const { praticienId, date, timeSlot, symptoms } = req.body;
         
-        // Add validation for required fields
+        // Ajouter une validation pour les champs requis
         if (!praticienId || !date || !timeSlot || !symptoms) {
             return res.status(400).json({
-                error: 'Missing required fields. Please provide praticienId, date, timeSlot, and symptoms'
+                error: 'Champs requis manquants. Veuillez fournir praticienId, date, timeSlot et symptoms'
             });
         }
 
-        // Convert timeSlot from "HHhMM" to "HH:MM:SS"
+        // Convertir timeSlot de "HHhMM" à "HH:MM:SS"
         const formattedTimeSlot = timeSlot
             .replace('h', ':')
             .concat(':00');
@@ -35,13 +35,13 @@ exports.createAppointment = async (req, res) => {
         conn.release();
         
         res.status(201).json({
-            message: 'Appointment created successfully',
+            message: 'Rendez-vous créé avec succès',
             appointmentId: Number(result.insertId)
         });
     } catch (error) {
-        console.error('Error creating appointment:', error);
+        console.error('Erreur lors de la création du rendez-vous:', error);
         res.status(500).json({
-            error: 'Internal server error',
+            error: 'Erreur interne du serveur',
             details: error.message
         });
     }
@@ -61,11 +61,10 @@ exports.getAppointments = async (req, res) => {
         );
         
         conn.release();
-        
         res.status(200).json(appointments);
     } catch (error) {
-        console.error('Error fetching appointments:', error);
-        res.status(500).send('Internal server error');
+        console.error('Erreur lors de la récupération des rendez-vous:', error);
+        res.status(500).send('Erreur interne du serveur');
     }
 }
 
@@ -83,12 +82,12 @@ exports.cancelAppointment = async (req, res) => {
         conn.release();
         
         if (result.affectedRows === 0) {
-            return res.status(404).json({ message: 'Appointment not found or unauthorized' });
+            return res.status(404).json({ message: 'Rendez-vous non trouvé ou non autorisé' });
         }
         
-        res.status(200).json({ message: 'Appointment canceled successfully' });
+        res.status(200).json({ message: 'Rendez-vous annulé avec succès' });
     } catch (error) {
-        console.error('Error canceling appointment:', error);
-        res.status(500).send('Internal server error');
+        console.error('Erreur lors de l\'annulation du rendez-vous:', error);
+        res.status(500).send('Erreur interne du serveur');
     }
 }

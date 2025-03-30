@@ -1,54 +1,53 @@
 const messageDiv = document.getElementById('message');
 console.log('admin.js');
 
-// Check admin access when page loads
+// Vérifier l'accès administrateur lors du chargement de la page
 function checkAdminAccess() {
     const token = getCookie('jwt');
     
     if (!token) {
-        // No token found, redirect to login
+        // Aucun token trouvé, redirection vers la page de connexion
         window.location.href = '/login.html';
         return false;
     }
     
     try {
-        // Decode JWT payload (without verification as that happens on the server)
+        // Décoder la charge utile JWT (sans vérification car cela se produit sur le serveur)
         const parts = token.split('.');
-        if (parts.length !== 3) throw new Error('Invalid token format');
+        if (parts.length !== 3) throw new Error('Format de token invalide');
         
         const payload = JSON.parse(atob(parts[1]));
         
         if (payload.role !== 'admin') {
-            // User is not an admin, redirect to home
+            // L'utilisateur n'est pas administrateur, rediriger vers la page d'accueil
             window.location.href = '/';
             return false;
         }
         
         return true;
     } catch (error) {
-        console.error('Error checking admin access:', error);
+        console.error('Erreur lors de la vérification de l\'accès administrateur:', error);
         window.location.href = '/';
         return false;
     }
 }
 
-// Helper function to get cookie
+// Fonction utilitaire pour obtenir un cookie
 function getCookie(name) {
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${name}=`);
     if (parts.length === 2) return parts.pop().split(';').shift();
-    return null;
 }
 
-// Check admin access immediately
+// Vérifier immédiatement l'accès administrateur
 document.addEventListener('DOMContentLoaded', () => {
     if (!checkAdminAccess()) return;
     
-    // Only load products if admin access check passes
+    // Charger les produits uniquement si la vérification d'accès administrateur est réussie
     loadProducts();
 });
 
-// Add product functionality
+// Fonctionnalité d'ajout de produit
 document.getElementById('product').addEventListener('click', async () => {
     const name = document.getElementById('product-name').value;
     const description = document.getElementById('product-description').value;
@@ -66,50 +65,50 @@ document.getElementById('product').addEventListener('click', async () => {
             },
             body: JSON.stringify(productData)
         });
-
+        
         if (response.ok) {
             messageDiv.textContent = "Produit bien ajouté!";
-            // Clear form fields
+            // Effacer les champs du formulaire
             document.querySelectorAll('#add-product-form input').forEach(input => input.value = '');
-            // Refresh the product list
+            // Actualiser la liste des produits
             loadProducts();
         } else {
             messageDiv.textContent = "Erreur dans l'ajout";
         }
     } catch (error) {
-        console.error('Error:', error);
+        console.error('Erreur:', error);
         messageDiv.textContent = "Erreur dans la requête";
     }
 });
 
-// Load and display products
+// Charger et afficher les produits
 async function loadProducts() {
     try {
         const response = await fetch(`${API_CONFIG.baseUrl}/products`);
         if (!response.ok) {
-            throw new Error('Failed to fetch products');
+            throw new Error('Échec de la récupération des produits');
         }
         
         const products = await response.json();
         
-        // Update table for desktop view
+        // Mettre à jour le tableau pour la vue bureau
         const productsTableList = document.getElementById('products-table-list');
         productsTableList.innerHTML = '';
         
-        // Update cards for mobile view
+        // Mettre à jour les cartes pour la vue mobile
         const productsCardList = document.getElementById('products-card-list');
         productsCardList.innerHTML = '';
         
         products.forEach(product => {
-            // Check if image path is valid or use a placeholder
+            // Vérifier si le chemin de l'image est valide ou utiliser un espace réservé
             const imageSrc = product.imagePath && product.imagePath.trim() !== '' 
                 ? product.imagePath 
                 : '/assets/placeholder-product.png';
             
-            // Format price to always show 2 decimal places
+            // Formater le prix pour toujours afficher 2 décimales
             const formattedPrice = parseFloat(product.price).toFixed(2);
             
-            // 1. Create table row for desktop
+            // 1. Créer une ligne de tableau pour bureau
             const row = document.createElement('tr');
             row.innerHTML = `
                 <td>${product.id_product}</td>
@@ -127,13 +126,13 @@ async function loadProducts() {
                 </td>
                 <td>
                     <button class="delete-product-btn" data-id="${product.id_product}">
-                        <i class="fas fa-trash"></i> Delete
+                        <i class="fas fa-trash"></i> Supprimer
                     </button>
                 </td>
             `;
             productsTableList.appendChild(row);
             
-            // 2. Create card for mobile
+            // 2. Créer une carte pour mobile
             const card = document.createElement('div');
             card.className = 'product-card';
             card.innerHTML = `
@@ -148,10 +147,10 @@ async function loadProducts() {
                     <h3 class="product-card-title">${product.name}</h3>
                     <p class="product-card-description">${product.description.substring(0, 100)}${product.description.length > 100 ? '...' : ''}</p>
                     <div class="product-card-price">${formattedPrice}€</div>
-                    <div class="product-card-quantity">Quantity: <span>${product.quantity}</span></div>
+                    <div class="product-card-quantity">Quantité: <span>${product.quantity}</span></div>
                     <div class="product-card-actions">
                         <button class="delete-card-btn" data-id="${product.id_product}">
-                            <i class="fas fa-trash"></i> Delete
+                            <i class="fas fa-trash"></i> Supprimer
                         </button>
                     </div>
                 </div>
@@ -159,26 +158,26 @@ async function loadProducts() {
             productsCardList.appendChild(card);
         });
         
-        // Add event listeners to delete buttons (both in table and cards)
+        // Ajouter des écouteurs d'événements aux boutons de suppression (dans le tableau et les cartes)
         document.querySelectorAll('.delete-product-btn, .delete-card-btn').forEach(button => {
             button.addEventListener('click', deleteProduct);
         });
         
     } catch (error) {
-        console.error('Error loading products:', error);
-        messageDiv.textContent = "Error loading products";
+        console.error('Erreur lors du chargement des produits:', error);
+        messageDiv.textContent = "Erreur lors du chargement des produits";
     }
 }
 
-// Delete product function
+// Fonction de suppression de produit
 async function deleteProduct(event) {
     const productId = event.currentTarget.dataset.id;
-    if (!confirm(`Are you sure you want to delete product #${productId}?`)) {
+    if (!confirm(`Êtes-vous sûr de vouloir supprimer le produit #${productId}?`)) {
         return;
     }
     
     try {
-        console.log(`Attempting to delete product ID: ${productId}`);
+        console.log(`Tentative de suppression du produit ID: ${productId}`);
         
         const response = await fetch(`${API_CONFIG.baseUrl}/admin/product/${productId}`, {
             method: 'DELETE',
@@ -188,33 +187,33 @@ async function deleteProduct(event) {
         });
         
         if (response.ok) {
-            // Clear any previous message
+            // Effacer tout message précédent
             messageDiv.textContent = "";
             
-            // Just refresh the product list without showing a success message
+            // Simplement actualiser la liste des produits sans afficher de message de succès
             loadProducts();
         } else {
-            // For debugging only - log detailed error information to console
-            console.log(`Server returned ${response.status}: ${response.statusText}`);
+            // Pour le débogage uniquement - journaliser des informations d'erreur détaillées dans la console
+            console.log(`Le serveur a retourné ${response.status}: ${response.statusText}`);
             try {
                 const contentType = response.headers.get('content-type');
                 if (contentType && contentType.includes('application/json')) {
                     const errorData = await response.json();
-                    console.log("Error details:", errorData);
+                    console.log("Détails de l'erreur:", errorData);
                 } else {
                     const textResponse = await response.text();
-                    console.log("Non-JSON response:", textResponse.substring(0, 100) + "...");
+                    console.log("Réponse non-JSON:", textResponse.substring(0, 100) + "...");
                 }
             } catch (parseError) {
-                console.error("Error parsing response:", parseError);
+                console.error("Erreur lors de l'analyse de la réponse:", parseError);
             }
             
-            // Don't display any error message to the user
+            // Ne pas afficher de message d'erreur à l'utilisateur
             messageDiv.textContent = "";
         }
     } catch (error) {
-        console.error('Error deleting product:', error);
-        // Don't display any error message to the user
+        console.error('Erreur lors de la suppression du produit:', error);
+        // Ne pas afficher de message d'erreur à l'utilisateur
         messageDiv.textContent = "";
     }
 }

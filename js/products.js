@@ -1,13 +1,13 @@
-// Reset globals and get references
+// Réinitialiser les variables globales et obtenir les références
 let productsData = [];
 
-// Initialization functions - using modern practices
+// Fonctions d'initialisation - utilisant des pratiques modernes
 const initializeApp = () => {
     getProducts();
     setupFilterButtons();
 };
 
-// Create notification element
+// Créer l'élément de notification
 const createNotificationElement = () => {
     const notification = document.createElement('div');
     notification.id = 'notification';
@@ -15,12 +15,12 @@ const createNotificationElement = () => {
     return notification;
 };
 
-// Get or create notification element
+// Obtenir ou créer l'élément de notification
 const getNotification = () => {
     return document.getElementById('notification') || createNotificationElement();
 };
 
-// Show notification - simplified without close button
+// Afficher la notification - simplifiée sans bouton de fermeture
 function showNotification(productName) {
     const notification = getNotification();
     
@@ -36,11 +36,11 @@ function showNotification(productName) {
     
     notification.classList.add('show');
     
-    // Auto close after 4 seconds
+    // Fermeture automatique après 4 secondes
     setTimeout(closeNotification, 4000);
 }
 
-// Close notification
+// Fermer la notification
 function closeNotification() {
     const notification = document.getElementById('notification');
     if (notification) {
@@ -48,29 +48,29 @@ function closeNotification() {
     }
 }
 
-// Add function to global scope for the close button
+// Ajouter une fonction à la portée globale pour le bouton de fermeture
 window.closeNotification = closeNotification;
 
-// Fetch products from API
+// Récupérer les produits de l'API
 async function getProducts() {
     try {
         const response = await fetch(`${API_CONFIG.baseUrl}/products`);
         if (!response.ok) {
-            throw new Error('Network response was not ok');
+            throw new Error('La réponse réseau n\'était pas correcte');
         }
         const products = await response.json();
         productsData = products;
         renderProducts(productsData);
     } catch (error) {
-        console.error('Error fetching products:', error);
+        console.error('Erreur lors de la récupération des produits:', error);
     }
 }
 
-// Render products to page with improved image handling
+// Afficher les produits sur la page avec une meilleure gestion des images
 function renderProducts(products) {
     const cardsContainer = document.getElementById('card-container');
     if (!cardsContainer) {
-        console.error('Card container element not found');
+        console.error('Élément conteneur de carte non trouvé');
         return;
     }
     
@@ -80,7 +80,7 @@ function renderProducts(products) {
         const productCard = document.createElement('div');
         productCard.className = 'card';
         
-        // Check if image path is valid or use a placeholder
+        // Vérifier si le chemin d'image est valide ou utiliser un espace réservé
         const imageSrc = product.imagePath && product.imagePath.trim() !== '' 
             ? product.imagePath 
             : '/assets/placeholder-product.png';
@@ -110,13 +110,13 @@ function renderProducts(products) {
         
         cardsContainer.appendChild(productCard);
         
-        // Add event listener to the button
+        // Ajouter un écouteur d'événements au bouton
         const addButton = productCard.querySelector('.product-add-btn');
         addButton.addEventListener('click', () => addToCart(product));
     });
 }
 
-// Add to cart function
+// Fonction d'ajout au panier
 async function addToCart(product) {
     const card = event.target.closest('.card');
     const quantitySelect = card.querySelector('.product-quantity');
@@ -148,23 +148,23 @@ async function addToCart(product) {
         
         if (response.ok) {
             showNotification(product.name);
-            quantitySelect.value = ""; // Reset the quantity selector after successful add
+            quantitySelect.value = ""; // Réinitialiser le sélecteur de quantité après un ajout réussi
         } else {
-            console.error('Failed to add product to cart:', await response.text());
+            console.error('Échec de l\'ajout du produit au panier:', await response.text());
         }
     } catch (error) {
-        console.error('Error adding product to cart:', error);
+        console.error('Erreur lors de l\'ajout du produit au panier:', error);
     }
 }
 
-// Get cookie helper
+// Fonction utilitaire pour récupérer un cookie
 function getCookie(name) {
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${name}=`);
     if (parts.length === 2) return parts.pop().split(';').shift();
 }
 
-// Handle filter buttons
+// Gérer les boutons de filtrage
 function setupFilterButtons() {
     const filterButtons = document.querySelectorAll('.filter-buttons');
     if (!filterButtons.length) {
@@ -176,7 +176,7 @@ function setupFilterButtons() {
             const filterType = button.value;
             let sortedProducts = [...productsData];
             
-            // Add active class to clicked button and remove from others
+            // Ajouter la classe active au bouton cliqué et la supprimer des autres
             filterButtons.forEach(btn => btn.classList.remove('active'));
             button.classList.add('active');
             
@@ -191,10 +191,10 @@ function setupFilterButtons() {
     });
 }
 
-// Use module pattern with immediate invocation for cleaner organization
-// This is a modern approach that doesn't rely on DOMContentLoaded
+// Utiliser le modèle de module avec invocation immédiate pour une organisation plus propre
+// C'est une approche moderne qui ne s'appuie pas sur DOMContentLoaded
 (function() {
-    // Check if we're on the right page with the necessary elements
+    // Vérifier si nous sommes sur la bonne page avec les éléments nécessaires
     if (document.getElementById('card-container')) {
         initializeApp();
     }

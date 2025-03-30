@@ -196,3 +196,90 @@ exports.removeProduct = async (req, res) => {
         res.status(500).json({ error: 'Server error' });
     }
 };
+
+exports.deletePraticien = async (req, res) => {
+    const praticienId = req.params.id;
+    let conn;
+    
+    try {
+        conn = await database.getConnection();
+        
+        // Vérifier si le praticien existe
+        const praticienExists = await conn.query(
+            'SELECT COUNT(*) as count FROM praticien WHERE praticien_id = ?', 
+            [praticienId]
+        );
+        
+        if (praticienExists[0].count === 0) {
+            console.log(`Praticien avec l'ID ${praticienId} non trouvé`);
+            conn.release();
+            return res.status(404).json({ error: 'Praticien non trouvé' });
+        }
+        
+        // Vérifier si le praticien a des rendez-vous associés (à des fins de journalisation)
+        console.log(`Vérification si le praticien avec l'ID ${praticienId} a des rendez-vous`);
+        const appointmentCheck = await conn.query(
+            'SELECT COUNT(*) as appointmentCount FROM appointment WHERE praticien_id = ?', 
+            [praticienId]
+        );
+        
+        // Convertir BigInt en Number pour éviter les problèmes de sérialisation
+        const appointmentCount = Number(appointmentCheck[0].appointmentCount);
+        console.log(`Trouvé ${appointmentCount} rendez-vous pour l'ID de praticien ${praticienId}`);
+        
+        // Utiliser une transaction pour s'assurer que les deux opérations réussissent ou échouent ensemble
+        try {
+            await conn.beginTransaction();
+            
+            // Supprimer d'abord les rendez-vous associés
+            if (appointmentCount > 0) {
+                console.log(`Suppression de ${appointmentCount} rendez-vous pour l'ID de praticien ${praticienId}`);
+                const deleteAppointmentsResult = await conn.query(
+                    'DELETE FROM appointment WHERE praticien_id = ?', 
+                    [praticienId]
+                );
+                // Convertir BigInt en Number
+                const deletedAppointments = Number(deleteAppointmentsResult.affectedRows);
+                console.log(`Supprimé ${deletedAppointments} rendez-vous`);
+            }
+            
+            // Maintenant supprimer le praticien
+            console.log(`Suppression du praticien avec l'ID ${praticienId}`);
+            const deletePraticienResult = await conn.query(
+                'DELETE FROM praticien WHERE praticien_id = ?', 
+                [praticienId]
+            );
+            
+            // Convertir BigInt en Number dans le log
+            const affectedRows = Number(deletePraticienResult.affectedRows);
+            const warningStatus = Number(deletePraticienResult.warningStatus || 0);
+            
+            console.log(`Résultat de la suppression du praticien:`, {
+                affectedRows: affectedRows,
+                warningStatus: warningStatus
+            });
+            
+            if (affectedRows === 0) {
+                // Improbable puisque nous avons déjà vérifié si le praticien existe
+                await conn.rollback();
+                conn.release();
+                return res.status(500).json({ error: 'Échec de la suppression du praticien pour une raison inconnue' });
+            }
+            
+            await conn.commit();
+            conn.release();
+            return res.status(200).json({ success: true });
+            
+        } catch (error) {
+            await conn.rollback();
+            throw error; // Relancer pour être capturé par le bloc catch externe
+        }
+    } catch (error) {
+        if (conn) conn.release();
+        console.error('Erreur lors de la suppression du praticien:', error);
+        return res.status(500).json({ 
+            error: 'Erreur lors de la suppression du praticien', 
+            details: error.message 
+        });
+    }
+};
