@@ -2766,3 +2766,23 @@ main h2::after {
         display: none;
     }
 }
+
+/* USER MANAGEMENT STYLES */
+/* Basic styles for the users table */
+.users-container {
+    margin: 10px 0;
+}
+.users-table {
+    width: 100%;
+}
+.problematic-badge {
+    color: red;
+    font-weight: bold;
+}
+.normal-badge {
+    color: green;
+    font-weight: bold;
+}
+.toggle-status-btn {
+    margin-left: 5px;
+}

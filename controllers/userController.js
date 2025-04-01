@@ -69,12 +69,19 @@ exports.login = async (req, res) => {
 
         const user = result[0];
         
+        // Check si l'user est problématique
+        if (user.isProblematic === 1) {
+            return res.status(200).json({ 
+                error: true,
+                message: 'Compte bloqué. Veuillez contacter l\'administration.'
+            });
+        }
+        
         // Compare password
         const passwordMatch = await bcrypt.compare(password, user.password);
         if (!passwordMatch) {
             return res.status(400).json('Mot de passe incorrect');
         }
-
 
         // On crée un token qui dure 1h
         const token = jwt.sign({ id: user.client_id, email: user.email, name: user.name, role: user.role }, process.env.API_KEY, { expiresIn: '1h' });
