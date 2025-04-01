@@ -1,29 +1,45 @@
-Promise.all([
-    fetch("/header.html").then(response => response.text()),
-    fetch("/footer.html").then(response => response.text())
-]).then(([headerData, footerData]) => {
+document.addEventListener('DOMContentLoaded', async function() {
     try {
-        document.getElementById("header-placeholder").innerHTML = headerData;
-        document.getElementById("footer-placeholder").innerHTML = footerData;
+        // Get the repository name from the pathname
+        const pathArray = window.location.pathname.split('/');
+        const repoName = pathArray[1]; // E.g., "fluffy1211.github.io"
+        const basePath = pathArray.length > 2 ? `/${repoName}` : '';
 
-        // Attacher les événements après le chargement du contenu
-        const hamburger = document.querySelector(".hamburger");
-        const navMenu = document.querySelector(".nav-menu");
-        const navLink = document.querySelectorAll(".nav-link");
-        const searchInput = document.querySelector('.searchbar-input');
-
-        // BURGER MENU
-        function mobileMenu() {
-            hamburger.classList.toggle("active");
-            navMenu.classList.toggle("active");
+        // Load header
+        const headerPlaceholder = document.getElementById('header-placeholder');
+        if (headerPlaceholder) {
+            const headerResponse = await fetch(`${basePath}/header.html`);
+            if (headerResponse.ok) {
+                const headerData = await headerResponse.text();
+                headerPlaceholder.innerHTML = headerData;
+            } else {
+                console.error('Failed to load header');
+            }
         }
-        hamburger.addEventListener("click", mobileMenu);
 
-        // LINKS MENU
-        navLink.forEach(n => n.addEventListener("click", closeMenu));
-        function closeMenu() {
-            hamburger.classList.remove("active");
-            navMenu.classList.remove("active");
+        // Load footer
+        const footerPlaceholder = document.getElementById('footer-placeholder');
+        if (footerPlaceholder) {
+            const footerResponse = await fetch(`${basePath}/footer.html`);
+            if (footerResponse.ok) {
+                const footerData = await footerResponse.text();
+                footerPlaceholder.innerHTML = footerData;
+            } else {
+                console.error('Failed to load footer');
+            }
+        }
+
+        // Handle hamburger menu after header is loaded
+        const hamburger = document.querySelector('.hamburger');
+        const navMenu = document.querySelector('.nav-menu');
+        
+        if (hamburger && navMenu) {
+            hamburger.addEventListener('click', () => {
+                hamburger.classList.toggle('active');
+                navMenu.classList.toggle('active');
+            });
+        } else {
+            console.log('Hamburger menu elements not found');
         }
     } catch (error) {
         console.error('Error in template.js:', error);
