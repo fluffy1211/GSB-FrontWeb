@@ -24,7 +24,7 @@
     <main>
         <div id="slider">
             <h1 class="title-gsb">Bienvenue chez Galaxy Swiss Bourdin</h1>
-            <img src="assets/medicaments_1.jpg" alt="" id="slide">
+            <img src="" alt="" id="slide"> <!-- Will be set by slider.js -->
             <div id="previous">&#60;</div>
             <div id="next">></div>
         </div>
@@ -88,6 +88,28 @@
 
     </main>
     <footer id="footer-placeholder"></footer>
+
+    <!-- Add inline script to preload image -->
+    <script>
+        // Set initial slider image with proper path
+        document.addEventListener('DOMContentLoaded', function() {
+            const slide = document.getElementById('slide');
+            if (slide) {
+                const hostname = window.location.hostname;
+                let basePath = '';
+                
+                // Check if we're on GitHub Pages
+                if (hostname.includes('github.io')) {
+                    const pathSegments = window.location.pathname.split('/').filter(s => s);
+                    if (pathSegments.length > 0) {
+                        basePath = `/${pathSegments[0]}`;
+                    }
+                }
+                
+                slide.src = `${basePath}/assets/medicaments_1.jpg`;
+            }
+        });
+    </script>
 </body>
 
 </html>
