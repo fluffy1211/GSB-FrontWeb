@@ -283,3 +283,59 @@ exports.deletePraticien = async (req, res) => {
         });
     }
 };
+
+exports.getAllUsers = async (req, res) => {
+    try {
+        const conn = await database.getConnection();
+        
+        const query = 'SELECT client_id, name, email, role, isProblematic FROM clients ORDER BY client_id';
+        const users = await conn.query(query);
+        
+        conn.release();
+        res.status(200).json(users);
+    } catch (error) {
+        console.error("Error fetching users:", error);
+        res.status(500).json({ error: 'Server error' });
+    }
+};
+
+exports.toggleUserProblematic = async (req, res) => {
+    const userId = req.params.id;
+    
+    try {
+        console.log(`Toggling problematic status for user ID: ${userId}`);
+        const conn = await database.getConnection();
+        
+        // Check si l'utilisateur existe
+        const userCheck = await conn.query('SELECT isProblematic FROM clients WHERE client_id = ?', [userId]);
+        
+        if (!userCheck || userCheck.length === 0) {
+            console.log(`User with ID ${userId} not found`);
+            conn.release();
+            return res.status(404).json({ error: 'User not found' });
+        }
+        
+        // Récupérer l'état actuel et le toggle true et false
+        const currentStatus = userCheck[0].isProblematic;
+        const newStatus = currentStatus ? 0 : 1;
+        
+        console.log(`Updating user ${userId} problematic status from ${currentStatus} to ${newStatus}`);
+        
+        // Update l'utilisateur avec le nouvel état
+        await conn.query(
+            'UPDATE clients SET isProblematic = ? WHERE client_id = ?',
+            [newStatus, userId]
+        );
+        
+        conn.release();
+        res.status(200).json({ 
+            message: 'User status updated successfully',
+            userId: userId,
+            isProblematic: newStatus === 1
+        });
+        
+    } catch (error) {
+        console.error("Error updating user problematic status:", error);
+        res.status(500).json({ error: 'Server error' });
+    }
+};

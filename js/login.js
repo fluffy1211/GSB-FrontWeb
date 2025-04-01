@@ -39,9 +39,14 @@ loginForm.addEventListener('submit', async function(event) {
         const result = await response.json();
         
         if (response.ok) {
-
-            setCookie('jwt', result.token, 1);
-            document.location.href = '/';
+            if (result.error) {
+                // This is for problematic users
+                errorMsg.innerHTML = result.message;
+                errorMsg.style.color = 'red';
+            } else if (result.token) {
+                setCookie('jwt', result.token, 1);
+                document.location.href = '/';
+            }
         } else {
             switch(result) {
                 case 'Utilisateur non trouvé':

@@ -7,7 +7,7 @@ function checkAdminAccess() {
     
     if (!token) {
         // Aucun token trouvé, redirection vers la page de connexion
-        window.location.href = '/login.html';
+        window.location.href = 'login.html';
         return false;
     }
     
@@ -20,14 +20,14 @@ function checkAdminAccess() {
         
         if (payload.role !== 'admin') {
             // L'utilisateur n'est pas administrateur, rediriger vers la page d'accueil
-            window.location.href = '/';
+            window.location.href = 'index.html';
             return false;
         }
         
         return true;
     } catch (error) {
         console.error('Erreur lors de la vérification de l\'accès administrateur:', error);
-        window.location.href = '/';
+        window.location.href = 'index.html';
         return false;
     }
 }
@@ -45,6 +45,9 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Charger les produits uniquement si la vérification d'accès administrateur est réussie
     loadProducts();
+    
+    // Charger la liste des utilisateurs
+    loadUsers();
 });
 
 // Fonctionnalité d'ajout de produit
@@ -56,12 +59,14 @@ document.getElementById('product').addEventListener('click', async () => {
     const quantity = document.getElementById('product-quantity').value;
 
     const productData = { name, description, price, imagePath, quantity };
+    const token = getCookie('jwt');
 
     try {
         const response = await fetch(`${API_CONFIG.baseUrl}/admin/add`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify(productData)
         });
@@ -84,7 +89,12 @@ document.getElementById('product').addEventListener('click', async () => {
 // Charger et afficher les produits
 async function loadProducts() {
     try {
-        const response = await fetch(`${API_CONFIG.baseUrl}/products`);
+        const token = getCookie('jwt');
+        const response = await fetch(`${API_CONFIG.baseUrl}/products`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
         if (!response.ok) {
             throw new Error('Échec de la récupération des produits');
         }
@@ -103,7 +113,7 @@ async function loadProducts() {
             // Vérifier si le chemin de l'image est valide ou utiliser un espace réservé
             const imageSrc = product.imagePath && product.imagePath.trim() !== '' 
                 ? product.imagePath 
-                : '/assets/placeholder-product.png';
+                : 'assets/placeholder-product.png';
             
             // Formater le prix pour toujours afficher 2 décimales
             const formattedPrice = parseFloat(product.price).toFixed(2);
@@ -115,7 +125,7 @@ async function loadProducts() {
                 <td>
                     <div class="product-info">
                         <img src="${imageSrc}" alt="${product.name}" class="admin-product-img" 
-                             onerror="this.src='/assets/placeholder-product.png'">
+                             onerror="this.src='assets/placeholder-product.png'">
                         <span>${product.name}</span>
                     </div>
                 </td>
@@ -142,7 +152,7 @@ async function loadProducts() {
                 <div class="product-card-body">
                     <div class="product-card-img-wrapper">
                         <img src="${imageSrc}" alt="${product.name}" class="product-card-img" 
-                             onerror="this.src='/assets/placeholder-product.png'">
+                             onerror="this.src='assets/placeholder-product.png'">
                     </div>
                     <h3 class="product-card-title">${product.name}</h3>
                     <p class="product-card-description">${product.description.substring(0, 100)}${product.description.length > 100 ? '...' : ''}</p>
@@ -169,6 +179,103 @@ async function loadProducts() {
     }
 }
 
+// Charger et afficher les utilisateurs
+async function loadUsers() {
+    try {
+        // Récupérer le token JWT à partir des cookies
+        const token = getCookie('jwt');
+        if (!token) {
+            console.error('No JWT token found');
+            messageDiv.textContent = "Erreur d'authentification";
+            return;
+        }
+
+        const response = await fetch(`${API_CONFIG.baseUrl}/admin/users`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error('Échec de la récupération des utilisateurs');
+        }
+        
+        const users = await response.json();
+        
+        // Mettre à jour le tableau des utilisateurs
+        const usersTableList = document.getElementById('users-table-list');
+        usersTableList.innerHTML = '';
+        
+        users.forEach(user => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${user.client_id}</td>
+                <td>${user.name}</td>
+                <td>${user.email}</td>
+                <td>${user.role}</td>
+                <td>
+                    <span class="${user.isProblematic ? 'problematic-badge' : 'normal-badge'}">
+                        ${user.isProblematic ? 'Problématique' : 'Normal'}
+                    </span>
+                    <button class="toggle-status-btn" data-id="${user.client_id}" data-status="${user.isProblematic}">
+                        ${user.isProblematic ? 'Marquer comme Normal' : 'Marquer comme Problématique'}
+                    </button>
+                </td>
+            `;
+            usersTableList.appendChild(row);
+        });
+        
+        // Add event listeners to toggle buttons
+        document.querySelectorAll('.toggle-status-btn').forEach(button => {
+            button.addEventListener('click', toggleUserStatus);
+        });
+        
+    } catch (error) {
+        console.error('Erreur lors du chargement des utilisateurs:', error);
+        messageDiv.textContent = "Erreur lors du chargement des utilisateurs";
+    }
+}
+
+// Fonction pour marquer l'utilisateur comme problématique ou normal
+async function toggleUserStatus(event) {
+    const userId = event.currentTarget.dataset.id;
+    const currentStatus = event.currentTarget.dataset.status === "1";
+    const statusText = currentStatus ? "normal" : "problématique";
+    
+    if (!confirm(`Êtes-vous sûr de vouloir marquer l'utilisateur #${userId} comme ${statusText}?`)) {
+        return;
+    }
+    
+    try {
+        const token = getCookie('jwt');
+        
+        const response = await fetch(`${API_CONFIG.baseUrl}/admin/user/${userId}/toggle-problematic`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        
+        if (response.ok) {
+            // Reload la liste des utilisateurs pour refléter le changement
+            loadUsers();
+        } else {
+            console.log(`Le serveur a retourné ${response.status}: ${response.statusText}`);
+            try {
+                const errorData = await response.json();
+                console.log("Détails de l'erreur:", errorData);
+            } catch (parseError) {
+                console.error("Erreur lors de l'analyse de la réponse:", parseError);
+            }
+        }
+    } catch (error) {
+        console.error('Erreur lors du changement de statut:', error);
+    }
+}
+
 // Fonction de suppression de produit
 async function deleteProduct(event) {
     const productId = event.currentTarget.dataset.id;
@@ -178,11 +285,12 @@ async function deleteProduct(event) {
     
     try {
         console.log(`Tentative de suppression du produit ID: ${productId}`);
-        
+        const token = getCookie('jwt');
         const response = await fetch(`${API_CONFIG.baseUrl}/admin/product/${productId}`, {
             method: 'DELETE',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
             }
         });
         
@@ -193,7 +301,6 @@ async function deleteProduct(event) {
             // Simplement actualiser la liste des produits sans afficher de message de succès
             loadProducts();
         } else {
-            // Pour le débogage uniquement - journaliser des informations d'erreur détaillées dans la console
             console.log(`Le serveur a retourné ${response.status}: ${response.statusText}`);
             try {
                 const contentType = response.headers.get('content-type');

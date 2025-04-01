@@ -21,24 +21,24 @@
             
             const token = getCookie('jwt');
             if (!token) {
-                window.location.href = '/login.html';
+                window.location.href = 'login.html';
                 return;
             }
             
             try {
                 const payload = JSON.parse(atob(token.split('.')[1]));
                 if (!payload || payload.role !== 'admin') {
-                    window.location.href = '/';
+                    window.location.href = 'index.html';
                 }
             } catch (e) {
-                window.location.href = '/';
+                window.location.href = 'index.html';
             }
         })();
     </script>
-    <script src="/js/template.js" defer></script>
-    <script src="/js/nav.js" defer></script>
-    <script src="/js/config.js" defer></script>
-    <script src="/js/admin.js" defer></script>
+    <script src="js/template.js" defer></script>
+    <script src="js/nav.js" defer></script>
+    <script src="js/config.js" defer></script>
+    <script src="js/admin.js" defer></script>
 </head>
 <body>
     <header id="header-placeholder"></header>
@@ -87,15 +87,29 @@
                         </tr>
                     </thead>
                     <tbody id="products-table-list">
-                        <!-- Products will be loaded here by JavaScript -->
                     </tbody>
                 </table>
             </div>
             
-            <!-- Card-based layout for mobile view -->
             <div id="products-card-list" class="mobile-only">
-                <!-- Products will be loaded here as cards by JavaScript -->
             </div>
+        </div>
+        
+        <h2>Manage Users</h2>
+        <div class="users-container">
+            <table class="users-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="users-table-list">
+                </tbody>
+            </table>
         </div>
     </main>
     <footer id="footer-placeholder"></footer>
