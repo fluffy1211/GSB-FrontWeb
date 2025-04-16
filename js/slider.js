@@ -29,7 +29,6 @@ document.addEventListener('DOMContentLoaded', function() {
             currentSlide = (currentSlide - 1 + slides.length) % slides.length;
         }
         
-        console.log(`Loading slide ${currentSlide}: ${slides[currentSlide]}`);
         slide.src = slides[currentSlide];
         slide.classList.add('fade');
         
