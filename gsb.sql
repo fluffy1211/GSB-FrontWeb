@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost
--- Généré le : lun. 31 mars 2025 à 09:50
+-- Généré le : mer. 16 avr. 2025 à 14:43
 -- Version du serveur : 10.4.28-MariaDB
 -- Version de PHP : 8.2.4
 
@@ -104,7 +104,9 @@ INSERT INTO `clients` (`client_id`, `name`, `email`, `password`, `role`, `isProb
 (20, 'admingsb', 'admingsb@gmail.com', '$2b$10$mjSS8P0vzyX0DEdp5eXh1O2p1/MW76h0sBWbF0tpWXf3l6dkM3ttS', 'admin', 0),
 (21, 'admingabriel', 'admingabriel@gmail.com', '$2b$10$YA0EHYgirp4gorAiiDBdRO1WE5jHUglAfUu0GCvqfTsp0J1TkibB6', 'admin', 0),
 (22, 'TestUser1742219835451', 'test1742219835451@example.com', '$2b$10$lSxswMLeoTn6lWw9kptEoOUlY03lxEbUmwfWMIrgjutukN5XqtD4i', 'user', 0),
-(23, 'TestUser1742219902537', 'test1742219902537@example.com', '$2b$10$Al7YKg//KdJ27utK9ESV9eeGRK6zDrg6kmNNiXVOedeCGJ2HTqiGu', 'user', 0);
+(23, 'TestUser1742219902537', 'test1742219902537@example.com', '$2b$10$Al7YKg//KdJ27utK9ESV9eeGRK6zDrg6kmNNiXVOedeCGJ2HTqiGu', 'user', 0),
+(24, 'testproblematic', 'testproblematic@gmail.com', '$2b$10$u8.nKB/LEpUoWx3KAMVksufE1T1ZaJ7csDUVHsyz6XUjwHSl5eCl.', 'user', 0),
+(25, 'testbts', 'testbts@gmail.com', '$2b$10$iAflaIrI/vNdlFXV2IygeeCAmcGG4CJfKNl6RC6KhL2IJLeluvF.2', 'user', 0);
 
 -- --------------------------------------------------------
 
@@ -170,7 +172,22 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id_product`, `name`, `description`, `price`, `imagePath`, `quantity`) VALUES
-(2, 'Spasfon', 'Contre les douleurs digestives et menstruelles', 5.00, 'assets/spasfon.png', 7);
+(2, 'Spasfon', 'Contre les douleurs digestives et menstruelles', 5.00, 'assets/spasfon.png', 7),
+(3, 'Doliprane', 'Paracetamol pour douleurs et fièvre', 3.50, 'assets/doliprane.png', 20),
+(4, 'Nurofen', 'Anti-inflammatoire et antidouleur', 4.20, 'assets/nurofen.png', 15),
+(5, 'Efferalgan', 'Antalgique et antipyrétique', 3.00, 'assets/efferalgan.png', 12),
+(6, 'Smecta', 'Traitement de la diarrhée', 4.50, 'assets/smecta.png', 10),
+(7, 'Strepsils', 'Pastilles pour la gorge', 5.00, 'assets/strepsils.png', 25),
+(8, 'Actifed', 'Décongestionnant et antiallergique', 6.00, 'assets/actifed.png', 8),
+(9, 'Rhinadvil', 'Contre le rhume', 5.50, 'assets/rhinadvil.png', 18),
+(10, 'Imodium', 'Contre les troubles digestifs', 4.80, 'assets/imodium.png', 10),
+(11, 'Clarix', 'Sirop contre la toux', 6.20, 'assets/clarix.png', 14),
+(12, 'Gaviscon', 'Contre les brûlures d’estomac', 4.90, 'assets/gaviscon.png', 11),
+(13, 'Maalox', 'Antiacide digestif', 5.00, 'assets/maalox.png', 9),
+(14, 'Betadine', 'Désinfectant antiseptique', 3.80, 'assets/betadine.png', 30),
+(15, 'Mercurochrome', 'Désinfectant cutané', 2.90, 'assets/mercurochrome.png', 17),
+(16, 'Voltarene', 'Anti-inflammatoire en gel', 7.20, 'assets/voltarene.png', 6),
+(17, 'Biseptine', 'Antiseptique pour plaies', 3.60, 'assets/biseptine.png', 19);
 
 --
 -- Index pour les tables déchargées
@@ -238,7 +255,7 @@ ALTER TABLE `carts`
 -- AUTO_INCREMENT pour la table `clients`
 --
 ALTER TABLE `clients`
-  MODIFY `client_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `client_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT pour la table `orders`
@@ -256,7 +273,7 @@ ALTER TABLE `praticien`
 -- AUTO_INCREMENT pour la table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id_product` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_product` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- Contraintes pour les tables déchargées
